@@ -3,12 +3,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- Meta viewport esencial para móviles -->
+    <!-- Meta viewport crítico -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Alekiu FISH | Configurador Pro</title>
     <style>
         :root {
-            /* Paleta */
             --bg-deep: #020b14;
             --bg-panel: #0b1628;
             --neon-cyan: #00FFFF;
@@ -18,7 +17,7 @@
             --whatsapp-green: #25D366;
             --text-main: #e0f7fa;
             
-            /* Variables Geometría */
+            /* Variables */
             --tank-l: 300px; --tank-h: 200px; --tank-w: 150px;
             --wood-h: 25px; --glass-lid-h: 4px;
             
@@ -28,7 +27,14 @@
             --water-color: rgba(0, 255, 255, 0.08);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        /* Ocultar barra de scroll pero permitir deslizar */
+        html, body {
+            box-sizing: border-box; margin: 0; padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE/Edge */
+        }
+        ::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
 
         body {
             background-color: var(--bg-deep);
@@ -45,31 +51,19 @@
 
         /* --- HEADER --- */
         header { 
-            padding: 2rem 1rem; 
-            text-align: center; 
+            padding: 2rem 1rem; text-align: center; 
             border-bottom: 1px solid rgba(0,255,255,0.1); 
-            position: relative; 
-            overflow: hidden; 
-            flex-shrink: 0;
+            position: relative; overflow: hidden; 
         }
         
         .title-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            perspective: 500px;
-            z-index: 10;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; position: relative; perspective: 500px; padding: 20px;
         }
 
         h1 { 
-            font-weight: 900; 
-            font-size: 5rem; /* Tamaño base PC */
-            line-height: 1;
-            margin: 0; 
-            font-style: italic;
-            text-transform: uppercase;
+            font-weight: 900; font-size: 5rem; line-height: 1; margin: 0; 
+            font-style: italic; text-transform: uppercase;
             background-image: linear-gradient(to bottom, #ffffff 30%, var(--neon-cyan) 100%);
             -webkit-background-clip: text; background-clip: text; color: transparent;
             animation: text-bite-smooth 10s ease-in-out infinite;
@@ -78,27 +72,14 @@
         }
 
         h2 {
-            font-weight: 300;
-            font-size: 2.5rem;
-            letter-spacing: 10px;
-            margin: 5px 0 0 0;
-            color: #fff;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px var(--neon-blue);
-            z-index: 2;
-        }
-
-        /* AJUSTES HEADER PARA CELULAR */
-        @media (max-width: 768px) {
-            header { padding: 1rem 0.5rem; }
-            h1 { font-size: 3rem; } /* Nombre más pequeño en celular */
-            h2 { font-size: 1.2rem; letter-spacing: 5px; }
+            font-weight: 300; font-size: 2.5rem; letter-spacing: 10px; margin: 5px 0 0 0;
+            color: #fff; text-transform: uppercase; text-shadow: 0 0 15px var(--neon-blue); z-index: 2;
         }
         
         @keyframes text-bite-smooth {
-            0%, 45% { transform: scale(1); text-shadow: 0 0 40px rgba(0, 255, 255, 0.3); filter: hue-rotate(0deg); }
-            48% { transform: scale(0.98); }
-            50% { transform: scale(1.05) rotate(1deg); text-shadow: 0 0 80px var(--neon-red), 0 0 30px var(--neon-red); filter: hue-rotate(140deg); }
+            0%, 48% { transform: scale(1); text-shadow: 0 0 40px rgba(0, 255, 255, 0.3); filter: hue-rotate(0deg); }
+            49% { transform: scale(0.98); }
+            50% { transform: scale(1.05) rotate(1deg); text-shadow: 0 0 100px rgba(255, 0, 85, 1), 0 0 50px rgba(255, 0, 85, 0.8); filter: hue-rotate(140deg); }
             55% { transform: scale(1); text-shadow: 0 0 40px rgba(0, 255, 255, 0.3); filter: hue-rotate(0deg); }
             100% { transform: scale(1); }
         }
@@ -114,8 +95,7 @@
             content: ''; position: absolute; right: -8px; top: -1px;
             width: 0; height: 0;
             border-top: 6px solid transparent; border-bottom: 6px solid transparent;
-            border-right: 8px solid var(--neon-green); border-left: 0;
-            transform: scaleX(0.8);
+            border-right: 8px solid var(--neon-green); border-left: 0; transform: scaleX(0.8);
         }
 
         .tf-1 { animation: orbit-1 8s linear infinite; }
@@ -144,49 +124,27 @@
             100% { top: 200px; right: 200px; transform: rotate(135deg); opacity: 0; }
         }
 
-        /* --- LAYOUT PRINCIPAL (CORREGIDO) --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 1.8rem; letter-spacing: 5px; }
+        }
+
+        /* --- LAYOUT --- */
         main {
-            flex: 1; 
-            display: grid; 
-            grid-template-columns: 480px 1fr; /* PC: 2 Columnas */
-            gap: 3rem;
-            padding: 3rem; 
-            max-width: 1800px; 
-            margin: 0 auto; 
-            width: 100%; 
-            align-items: start;
+            flex: 1; display: grid; grid-template-columns: 480px 1fr; gap: 3rem;
+            padding: 3rem; max-width: 1800px; margin: 0 auto; width: 100%; align-items: start;
         }
 
-        /* --- MEDIA QUERY PARA CELULAR (CORREGIDO) --- */
         @media (max-width: 1000px) {
-            main { 
-                display: flex; 
-                flex-direction: column; 
-                padding: 10px; /* Menos padding lateral */
-                gap: 1.5rem; 
-                width: 100%; 
-                overflow-x: hidden; 
-            }
-            
-            /* El Visor va PRIMERO y tiene altura controlada */
-            .viewer-container { 
-                order: -1; 
-                height: 45vh !important; /* Ocupa un poco menos de la mitad para ver controles */
-                width: 100%; 
-                min-height: 300px;
-            }
-            
-            .panel { 
-                width: 100%; 
-                padding: 1.5rem !important; 
-            }
+            main { display: flex; flex-direction: column; padding: 1rem; gap: 2rem; width: 100%; max-width: 100%; overflow-x: hidden; }
+            .viewer-container { order: -1; height: 55vh !important; width: 100%; min-height: 350px; }
+            .panel { width: 100%; padding: 1.5rem !important; }
         }
 
-        /* PANEL CONTROLES */
+        /* PANEL */
         .panel {
             background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05);
             border-radius: 16px; padding: 2.5rem; box-shadow: 0 0 20px rgba(0,0,0,0.3);
-            z-index: 5;
         }
 
         h3 { color: var(--neon-cyan); margin: 1.5rem 0 0.8rem 0; font-size: 1.1rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
@@ -207,18 +165,12 @@
             border: 1px solid #2c3e50; cursor: pointer; font-size: 0.9rem; transition: 0.2s; border-radius: 8px;
             display: flex; align-items: center; justify-content: center;
         }
-        .radio-btn.active { 
-            background: var(--neon-cyan); color: #000; font-weight: bold; 
-            box-shadow: 0 0 15px var(--neon-cyan); border-color: var(--neon-cyan);
-        }
+        .radio-btn.active { background: var(--neon-cyan); color: #000; font-weight: bold; box-shadow: 0 0 15px var(--neon-cyan); border-color: var(--neon-cyan); }
 
         .liters-display {
             font-size: 4rem; font-weight: bold; color: #fff; 
             text-shadow: 0 0 15px var(--neon-cyan); text-align: center; margin: 0.5rem 0; line-height: 1;
         }
-        /* Ajuste texto litros movil */
-        @media (max-width: 768px) { .liters-display { font-size: 3rem; } }
-
         .liters-label { text-align: center; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 2rem; }
 
         /* CARD FILTRO */
@@ -241,7 +193,6 @@
         input:checked + .slider { background-color: var(--neon-green); }
         input:checked + .slider:before { transform: translateX(18px); background-color: #000; }
 
-        /* RESUMEN */
         .summary-box {
             margin-top: 2rem; background: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--neon-green); border-radius: 12px; padding: 1.5rem;
@@ -260,14 +211,15 @@
         }
         .btn-whatsapp:hover { background: #20bd5a; transform: translateY(-3px); }
 
-        /* --- VISUALIZADOR 3D --- */
+        /* --- VISUALIZADOR 3D (CORREGIDO PARA SCROLL) --- */
         .viewer-container {
             position: relative; height: 750px;
             background: radial-gradient(circle, #132235 0%, transparent 70%);
             border-radius: 16px; overflow: hidden; cursor: grab;
             display: flex; align-items: center; justify-content: center;
             perspective: 2000px;
-            touch-action: none; /* CLAVE PARA MÓVIL */
+            /* IMPORTANTE: Permite scroll vertical (pan-y), bloquea horizontal (pan-x) para rotar */
+            touch-action: pan-y; 
             z-index: 1;
         }
         .viewer-container:active { cursor: grabbing; }
@@ -281,7 +233,6 @@
         .tank { transform-style: preserve-3d; position: absolute; }
         .face { position: absolute; background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: 0 0 40px rgba(0,255,255,0.05) inset; backface-visibility: visible; transition: all 0.4s ease; }
 
-        /* Geometría */
         .f-front { width: var(--tank-l); height: var(--tank-h); transform: translate(-50%, -50%) translateZ(calc(var(--tank-w) / 2)); pointer-events: none; }
         .f-back  { width: var(--tank-l); height: var(--tank-h); transform: translate(-50%, -50%) rotateY(180deg) translateZ(calc(var(--tank-w) / 2)); }
         .f-right { width: var(--tank-w); height: var(--tank-h); transform: translate(-50%, -50%) rotateY(90deg) translateZ(calc(var(--tank-l) / 2)); }
@@ -323,18 +274,15 @@
 
         .metal-mode .face { border: 8px solid #bdc3c7; }
 
-        /* --- PECES 3D (CSS 2.5D) --- */
         .aquarium-content { position: absolute; top: 0; left: 0; width: 0; height: 0; transform-style: preserve-3d; pointer-events: none; }
         .fish-wrapper { position: absolute; transform-style: preserve-3d; animation: swim-path 20s linear infinite, float-y 4s ease-in-out infinite; }
         .fish-model { position: relative; transform-style: preserve-3d; }
         .fish-part { position: absolute; backface-visibility: visible; }
 
-        /* BETTA */
         .betta .body { width: 30px; height: 12px; background: var(--fish-color); border-radius: 10px; box-shadow: 0 0 8px var(--fish-color); }
         .betta .tail { width: 45px; height: 35px; background: linear-gradient(90deg, var(--fish-color), transparent); top: -10px; left: -38px; border-radius: 50% 0 0 50%; opacity: 0.9; transform-origin: right center; animation: tail-wag 0.8s ease-in-out infinite alternate; }
         .betta .fin { width: 15px; height: 10px; background: var(--fish-color); top: 8px; left: 5px; transform: rotateX(45deg); opacity: 0.7; }
 
-        /* GOLDFISH */
         .gold .body { width: 34px; height: 24px; background: var(--fish-body-grad); border-radius: 50% 50% 40% 40%; box-shadow: inset -2px -2px 6px rgba(0,0,0,0.2); }
         .gold .tail { width: 28px; height: 32px; background: radial-gradient(circle at right, var(--fish-tail-color), transparent); position: absolute; top: -4px; left: -20px; border-radius: 50% 0 0 50%; opacity: 0.9; transform-origin: right center; animation: tail-wag 0.5s ease-in-out infinite alternate; }
         .gold .dorsal { width: 16px; height: 10px; background: var(--fish-tail-color); position: absolute; top: -8px; left: 10px; border-radius: 50% 50% 0 0; opacity: 0.8; transform: translateZ(0); }
@@ -406,7 +354,6 @@
             </div>
 
             <br>
-
             <h3>Dimensiones (cm)</h3>
             <div class="input-group">
                 <label>Largo (Frontal)</label>
@@ -443,7 +390,6 @@
                 <div class="radio-btn" onclick="setBase(true, this)">Base Madera (+S/ 150)</div>
             </div>
 
-            <!-- Resumen -->
             <div class="summary-box">
                 <div class="summary-header">Detalle de Cotización</div>
                 <div id="orderList"></div>
@@ -462,48 +408,16 @@
             <div class="instruction-overlay">🖱️ Arrastra para girar 360°</div>
             <div class="scene" id="scene">
                 <div class="tank" id="tank">
-                    <!-- Vidrio -->
                     <div class="face f-front"></div>
                     <div class="face f-back"></div>
                     <div class="face f-right"></div>
                     <div class="face f-left"></div>
                     <div class="face f-bottom"></div>
-                    
-                    <!-- Tapa Madera 3D -->
-                    <div class="wood-group" id="woodLidGroup">
-                        <div class="wood-face wood-texture wl-front"></div>
-                        <div class="wood-face wood-texture wl-back"></div>
-                        <div class="wood-face wood-texture wl-right"></div>
-                        <div class="wood-face wood-texture wl-left"></div>
-                        <div class="wood-face wood-texture wl-top"></div>
-                    </div>
-
-                    <!-- Tapa Vidrio 3D -->
-                    <div class="glass-group" id="glassLidGroup">
-                        <div class="glass-face gl-front"></div>
-                        <div class="glass-face gl-back"></div>
-                        <div class="glass-face gl-right"></div>
-                        <div class="glass-face gl-left"></div>
-                        <div class="glass-face gl-top"></div>
-                    </div>
-
-                    <!-- Base Madera 3D -->
-                    <div class="wood-group visible" id="woodBaseGroup">
-                        <div class="wood-face wood-texture wb-front"></div>
-                        <div class="wood-face wood-texture wb-back"></div>
-                        <div class="wood-face wood-texture wb-right"></div>
-                        <div class="wood-face wood-texture wb-left"></div>
-                        <div class="wood-face wood-texture wb-bottom"></div>
-                    </div>
-
+                    <div class="wood-group" id="woodLidGroup"><div class="wood-face wood-texture wl-front"></div><div class="wood-face wood-texture wl-back"></div><div class="wood-face wood-texture wl-right"></div><div class="wood-face wood-texture wl-left"></div><div class="wood-face wood-texture wl-top"></div></div>
+                    <div class="glass-group" id="glassLidGroup"><div class="glass-face gl-front"></div><div class="glass-face gl-back"></div><div class="glass-face gl-right"></div><div class="glass-face gl-left"></div><div class="glass-face gl-top"></div></div>
+                    <div class="wood-group" id="woodBaseGroup"><div class="wood-face wood-texture wb-front"></div><div class="wood-face wood-texture wb-back"></div><div class="wood-face wood-texture wb-right"></div><div class="wood-face wood-texture wb-left"></div><div class="wood-face wood-texture wb-bottom"></div></div>
                     <div class="aquarium-content" id="lifeContainer"></div>
-                    <div class="water">
-                        <div class="w-face w-front"></div>
-                        <div class="w-face w-back"></div>
-                        <div class="w-face w-right"></div>
-                        <div class="w-face w-left"></div>
-                        <div class="w-face w-top"></div>
-                    </div>
+                    <div class="water"><div class="w-face w-front"></div><div class="w-face w-back"></div><div class="w-face w-right"></div><div class="w-face w-left"></div><div class="w-face w-top"></div></div>
                 </div>
             </div>
         </section>
@@ -533,6 +447,7 @@
             const checkFilter = document.getElementById('checkFilter'), filterPriceDisplay = document.getElementById('filterPriceDisplay');
             const recIcon = document.getElementById('recIcon'), recTitle = document.getElementById('recTitle'), recDesc = document.getElementById('recDesc');
 
+            // Global functions attached to window
             window.setFinish = function(t, btn) {
                 document.getElementById('finish-options').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -660,7 +575,6 @@
                 else basePrice = 300 + ((liters - 200) * 2);
 
                 let finishPrice = (currentFinish === 'metal') ? 50 : 0;
-                
                 let lidPrice = 0;
                 if (selLid.value === 'wood') lidPrice = 100; 
                 if (selLid.value === 'glass') lidPrice = 10;
@@ -737,12 +651,7 @@
                 }
             }
 
-            function determineScale() {
-                currentScale = window.innerWidth < 768 ? 2.8 : 6;
-                updateTank();
-            }
-
-            // Initialize
+            // Init
             [inpL, inpH, inpW].forEach(el => el.addEventListener('input', updateTank));
             window.addEventListener('resize', determineScale);
             
@@ -762,11 +671,13 @@
                     </div>`;
             });
 
-            // 3D Rotation
+            // 3D Rotation Logic with Touch Scroll Support
             const viewer = document.getElementById('viewer'), scene = document.getElementById('scene');
             let isDragging = false, startX, startY, rotX = -15, rotY = 35;
+            
             const startDrag = (x, y) => { isDragging = true; startX = x; startY = y; viewer.style.cursor = 'grabbing'; };
             const stopDrag = () => { isDragging = false; viewer.style.cursor = 'grab'; };
+            
             const moveDrag = (x, y) => {
                 if(!isDragging) return;
                 let dX = x - startX, dY = y - startY;
@@ -775,12 +686,30 @@
                 scene.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
                 startX = x; startY = y;
             };
+
             viewer.addEventListener('mousedown', e => startDrag(e.clientX, e.clientY));
             window.addEventListener('mouseup', stopDrag);
             window.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
+            
+            // Custom Touch Logic for Mobile Scroll
             viewer.addEventListener('touchstart', e => startDrag(e.touches[0].clientX, e.touches[0].clientY), {passive: false});
             window.addEventListener('touchend', stopDrag);
-            viewer.addEventListener('touchmove', e => { if(isDragging) e.preventDefault(); moveDrag(e.touches[0].clientX, e.touches[0].clientY); }, {passive: false});
+            viewer.addEventListener('touchmove', e => {
+                if(!isDragging) return;
+                
+                // Calculate deltas
+                let deltaX = e.touches[0].clientX - startX;
+                let deltaY = e.touches[0].clientY - startY;
+                
+                // If horizontal swipe > vertical swipe, rotate 3D model
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    e.preventDefault(); // Stop scrolling, rotate model
+                    rotY += deltaX * 0.5;
+                    scene.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+                    startX = e.touches[0].clientX;
+                } 
+                // Else: let browser scroll naturally (do nothing here)
+            }, {passive: false});
 
             determineScale();
             updateTank();
