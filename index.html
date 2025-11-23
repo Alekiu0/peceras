@@ -3,7 +3,6 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport optimizado para evitar problemas de escala en móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Alekiu FISH | Configurador Pro</title>
     <style>
@@ -14,12 +13,12 @@
             --neon-cyan: #00FFFF;
             --neon-blue: #2979ff;
             --neon-green: #00ff9d;
-            --neon-red: #ff0055; /* Se mantiene por si acaso, pero el pez será verde */
+            --neon-red: #ff0055;
             --whatsapp-green: #25D366;
             --text-main: #e0f7fa;
             
             /* Variables Geometría */
-            --tank-l: 300px; --tank-h: 200px; --tank-w: 150px;
+            --tank-l: 400px; --tank-h: 300px; --tank-w: 200px;
             --wood-h: 25px; --glass-lid-h: 4px;
             
             /* Materiales */
@@ -28,12 +27,12 @@
             --water-color: rgba(0, 255, 255, 0.08);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg-deep);
             color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             overflow-x: hidden;
             display: flex; flex-direction: column; min-height: 100vh;
         }
@@ -45,83 +44,68 @@
 
         /* --- HEADER --- */
         header { 
-            padding: 2rem 1rem; 
-            text-align: center; 
+            padding: 2rem; text-align: center; 
             border-bottom: 1px solid rgba(0,255,255,0.1); 
-            position: relative; 
-            overflow: hidden;
-            flex-shrink: 0; /* Evita que se aplaste */
+            position: relative; overflow: hidden; 
         }
         
         .title-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            display: inline-block; position: relative;
             perspective: 500px;
-            padding: 20px;
-            z-index: 10;
         }
 
         h1 { 
-            font-weight: 900; 
-            font-size: 5rem; 
-            line-height: 1;
-            margin: 0; 
-            font-style: italic;
-            text-transform: uppercase;
-            /* Degradado base Azul/Blanco */
+            letter-spacing: 2px; text-transform: uppercase; font-weight: 900; 
+            font-size: 4.5rem; margin: 0; font-style: italic;
+            
+            /* DEGRADADO NATURAL (ESTÁTICO): Blanco a Celeste */
             background-image: linear-gradient(to bottom, #ffffff 30%, var(--neon-cyan) 100%);
             -webkit-background-clip: text; background-clip: text; color: transparent;
             
-            /* Animación del impacto */
-            animation: text-bite-green 10s ease-in-out infinite;
+            /* Solo animamos la reacción al golpe, quitamos el barrido */
+            animation: text-bite-smooth 10s ease-in-out infinite;
             
             text-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
             position: relative; z-index: 2;
         }
-
-        h2 {
-            font-weight: 300;
-            font-size: 2.5rem;
-            letter-spacing: 10px;
-            margin: 5px 0 0 0;
-            color: #fff;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px var(--neon-blue);
-            z-index: 2;
+        
+        h1 span { 
+            font-weight: 300; color: #fff; font-size: 0.5em; font-style: normal; margin-left: 10px; 
+            text-shadow: none; -webkit-text-fill-color: #fff;
         }
         
-        /* ANIMACIÓN DEL TEXTO AL SER MORDIDO (VERDE) */
-        @keyframes text-bite-green {
-            0%, 45% { 
+        /* REACCIÓN AL MORDISCO (Sincronizado con pez rojo 10s) */
+        @keyframes text-bite-smooth {
+            0%, 48% { 
                 transform: scale(1); 
-                text-shadow: 0 0 40px rgba(0, 255, 255, 0.3); 
-                filter: hue-rotate(0deg);
+                text-shadow: 0 0 40px rgba(0, 255, 255, 0.3); /* Sombra Azul Normal */
             }
-            48% { transform: scale(0.98); } /* Se contrae */
+            49% { 
+                transform: scale(0.98); /* Se encoge */
+            }
             50% { 
-                transform: scale(1.05) rotate(1deg); 
-                /* GOLPE VERDE INTENSO */
-                text-shadow: 0 0 80px var(--neon-green), 0 0 30px var(--neon-green);
-                /* Ajuste de color sutil */
+                transform: scale(1.05) rotate(1deg); /* GOLPE */
+                /* El fondo brilla rojo, el texto sigue blanco/celeste */
+                text-shadow: 0 0 100px rgba(255, 0, 85, 1), 0 0 50px rgba(255, 0, 85, 0.8); 
             }
-            55% { 
-                transform: scale(1); 
-                text-shadow: 0 0 40px rgba(0, 255, 255, 0.3); 
-                filter: hue-rotate(0deg);
+            55% {
+                transform: scale(1);
+                text-shadow: 0 0 40px rgba(0, 255, 255, 0.3); /* Regresa suave */
             }
             100% { transform: scale(1); }
         }
 
-        /* Peces del Título */
+        /* --- PECES DEL TÍTULO --- */
         .title-fish {
-            position: absolute; width: 20px; height: 10px;
-            background: transparent; border: 2px solid var(--neon-green);
-            border-radius: 40% 50% 50% 40%; box-shadow: 0 0 10px var(--neon-green); 
-            z-index: 1; pointer-events: none;
+            position: absolute;
+            width: 20px; height: 10px;
+            background: transparent;
+            border: 2px solid var(--neon-green);
+            border-radius: 40% 50% 50% 40%; 
+            box-shadow: 0 0 10px var(--neon-green); 
+            z-index: 1;
         }
+        
         .title-fish::after { 
             content: ''; position: absolute; right: -8px; top: -1px;
             width: 0; height: 0;
@@ -130,174 +114,183 @@
             transform: scaleX(0.8);
         }
 
+        /* Pez 1 */
         .tf-1 { animation: orbit-1 8s linear infinite; }
-        .tf-2 { animation: orbit-2 12s linear infinite; border-color: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); }
-        .tf-2::after { border-right-color: var(--neon-cyan); }
         
-        /* EL PEZ VERDE ATACANTE (Antes Rojo) */
+        /* Pez 2 */
+        .tf-2 { 
+            animation: orbit-2 12s linear infinite; 
+            border-color: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); 
+        }
+        .tf-2::after { border-right-color: var(--neon-cyan); }
+
+        /* Pez 3 (Rojo Atacante - 10s) */
         .tf-3 { 
             animation: bite-attack 10s ease-in-out infinite; 
-            border-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); 
+            border-color: var(--neon-red); box-shadow: 0 0 15px var(--neon-red); 
         }
-        .tf-3::after { border-right-color: var(--neon-green); }
+        .tf-3::after { border-right-color: var(--neon-red); }
 
+
+        /* Trayectorias Header */
         @keyframes orbit-1 {
-            0% { transform: translate(-150px, 50px) rotate(0deg); opacity:0; }
-            20% { opacity: 1; }
-            50% { transform: translate(150px, -50px) rotate(0deg); }
-            100% { transform: translate(-150px, 50px) rotate(180deg); opacity: 0; }
+            0% { transform: translate(-180px, 20px) rotate(0deg); opacity:0; }
+            10% { opacity: 1; }
+            45% { transform: translate(180px, -20px) rotate(0deg); }
+            50% { transform: translate(180px, -20px) rotate(180deg); }
+            95% { transform: translate(-180px, 20px) rotate(180deg); opacity: 1; }
+            100% { transform: translate(-180px, 20px) rotate(180deg); opacity: 0; }
         }
         @keyframes orbit-2 {
-            0% { transform: translate(160px, 0px) rotate(180deg); }
-            50% { transform: translate(-160px, 0px) rotate(180deg); }
-            100% { transform: translate(160px, 0px) rotate(0deg); }
+            0% { transform: translate(140px, 40px) rotate(180deg); }
+            50% { transform: translate(-140px, -10px) rotate(180deg); }
+            51% { transform: translate(-140px, -10px) rotate(0deg); }
+            100% { transform: translate(140px, 40px) rotate(0deg); }
         }
-        
-        /* TRAYECTORIA DE ATAQUE */
         @keyframes bite-attack {
-            0% { top: -100px; right: -100px; transform: rotate(45deg); opacity: 0; }
-            40% { opacity: 1; }
-            /* Momento del impacto: Se acerca al centro del texto */
-            48% { top: 30px; right: 0px; transform: rotate(45deg) scale(1); } 
-            50% { top: 40px; right: 10px; transform: rotate(30deg) scale(1.5); } /* IMPACTO */
-            52% { top: 45px; right: 20px; transform: rotate(135deg) scale(1); } 
-            100% { top: 200px; right: 200px; transform: rotate(135deg); opacity: 0; }
+            0% { top: -60px; right: -80px; transform: rotate(45deg); opacity: 0; }
+            30% { opacity: 1; }
+            45% { top: 0px; right: 0px; transform: rotate(45deg) scale(1); } /* Se acerca lento */
+            50% { top: 15px; right: 25px; transform: rotate(30deg) scale(1.3); } /* MUERDE */
+            55% { top: 20px; right: 30px; transform: rotate(135deg) scale(1); } /* Gira */
+            100% { top: 150px; right: 150px; transform: rotate(135deg); opacity: 0; } /* Se va */
         }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 3.5rem; }
-            h2 { font-size: 1.8rem; letter-spacing: 5px; }
-        }
+        @media (max-width: 768px) { h1 { font-size: 2.8rem; } }
 
-        /* --- LAYOUT PRINCIPAL --- */
+        /* GRID PRINCIPAL */
         main {
-            flex: 1; 
-            display: grid; 
-            grid-template-columns: 480px 1fr; 
-            gap: 3rem;
-            padding: 3rem; 
-            max-width: 1800px; 
-            margin: 0 auto; 
-            width: 100%; 
-            align-items: start;
-            min-height: 0; /* Fix para Firefox grid overflow */
+            flex: 1; display: grid; grid-template-columns: 480px 1fr; gap: 4rem;
+            padding: 3rem; max-width: 1900px; margin: 0 auto; width: 100%;
         }
+        @media (max-width: 1200px) { main { grid-template-columns: 1fr; } }
 
-        @media (max-width: 1000px) {
-            main { 
-                display: flex; 
-                flex-direction: column; 
-                padding: 1rem; 
-                gap: 2rem; 
-                width: 100%; 
-                max-width: 100%; 
-            }
-            /* Asegurar que el visor tenga altura en movil */
-            .viewer-container { 
-                order: -1; 
-                height: 50vh !important; 
-                width: 100%; 
-                min-height: 300px;
-            }
-            .panel { width: 100%; padding: 1.5rem !important; }
-        }
-
-        /* PANEL */
+        /* PANEL LATERAL */
         .panel {
-            background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px; padding: 2.5rem; box-shadow: 0 0 20px rgba(0,0,0,0.3);
-            z-index: 5; /* Asegura que esté por encima */
+            background: var(--bg-panel);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px; padding: 2.5rem; height: fit-content;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
         }
 
-        h3 { color: var(--neon-cyan); margin: 1.5rem 0 0.8rem 0; font-size: 1.1rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
+        h3 { color: var(--neon-cyan); margin-bottom: 1.5rem; font-size: 1.1rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.8rem; }
         
-        .input-group { margin-bottom: 1rem; }
-        label { display: block; font-size: 0.9rem; color: #94a3b8; margin-bottom: 5px; }
+        .input-group { margin-bottom: 1.5rem; }
+        label { display: block; font-size: 1rem; color: #94a3b8; margin-bottom: 8px; }
         
         input[type="number"], select {
             width: 100%; background: #020617; border: 1px solid #1e293b; color: #fff;
-            padding: 12px; border-radius: 8px; font-family: monospace; font-size: 1.1rem;
+            padding: 14px; border-radius: 8px; font-family: monospace; font-size: 1.2rem;
             color: var(--neon-cyan); outline: none; transition: 0.3s;
         }
         input[type="number"]:focus { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0,255,255,0.2); }
 
-        /* BOTONES RADIO */
-        .radio-options { display: flex; gap: 10px; margin-bottom: 1.5rem; }
+        /* Radio Buttons */
+        .radio-options { display: flex; gap: 15px; margin-bottom: 2.5rem; }
         .radio-btn {
             flex: 1; padding: 15px; text-align: center; background: #0f2035; 
-            border: 1px solid #2c3e50; cursor: pointer; font-size: 0.9rem; transition: 0.2s; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
+            border: 1px solid #2c3e50; cursor: pointer; font-size: 1rem; transition: 0.2s; border-radius: 8px;
         }
-        .radio-btn.active { 
-            background: var(--neon-cyan); color: #000; font-weight: bold; 
-            box-shadow: 0 0 15px var(--neon-cyan); border-color: var(--neon-cyan);
-        }
+        .radio-btn.active { background: var(--neon-cyan); color: #000; font-weight: bold; box-shadow: 0 0 20px var(--neon-cyan); }
 
         .liters-display {
-            font-size: 4rem; font-weight: bold; color: #fff; 
-            text-shadow: 0 0 15px var(--neon-cyan); text-align: center; margin: 0.5rem 0; line-height: 1;
+            font-size: 4.5rem; font-weight: bold; color: #fff; 
+            text-shadow: 0 0 15px var(--neon-cyan); text-align: center; margin: 1rem 0; line-height: 1;
         }
         .liters-label { text-align: center; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 2rem; }
 
         /* CARD FILTRO */
         .recommendation-card {
             display:flex; align-items:center; justify-content: space-between;
-            background:rgba(0,255,255,0.03); padding: 1rem; 
+            background:rgba(0,255,255,0.03); padding: 1.2rem; 
             border-radius:12px; border:1px solid rgba(0,255,255,0.1);
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
         .rec-left { display:flex; gap: 1rem; align-items: center; }
         .rec-icon { font-size: 2.5rem; }
-        .rec-text h4 { margin: 0 0 5px 0; color: var(--neon-cyan); font-size: 1rem; }
-        .rec-text p { margin: 0; font-size: 0.85rem; color: #aaa; }
+        .rec-text h4 { margin: 0 0 5px 0; color: var(--neon-cyan); font-size: 1.1rem; }
+        .rec-text p { margin: 0; font-size: 0.9rem; color: #aaa; }
 
-        .filter-switch-container { display: flex; flex-direction: column; align-items: flex-end; }
-        .neon-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+        /* TOGGLE SWITCH */
+        .toggle-container { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+        .toggle-label { font-size: 0.75rem; color: var(--neon-green); text-transform: uppercase; letter-spacing: 1px; }
+        .neon-switch { position: relative; display: inline-block; width: 50px; height: 26px; }
         .neon-switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #1e293b; transition: .4s; border-radius: 34px; border: 1px solid #334155; }
-        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 4px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--neon-green); }
-        input:checked + .slider:before { transform: translateX(18px); background-color: #000; }
-
-        /* RESUMEN */
-        .summary-box {
-            margin-top: 2rem; background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--neon-green); border-radius: 12px; padding: 1.5rem;
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #1e293b; transition: .4s; border-radius: 34px; border: 1px solid #334155;
         }
-        .summary-header { color: var(--neon-green); text-transform: uppercase; font-size: 1rem; border-bottom: 1px dashed rgba(255,255,255,0.2); padding-bottom: 10px; margin-bottom: 10px; }
-        .summary-item { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 8px; color: #ccc; }
-        .summary-total { display: flex; justify-content: space-between; margin-top: 15px; border-top: 1px solid var(--neon-green); padding-top: 10px; font-size: 1.5rem; color: var(--neon-green); font-weight: bold; }
-        .remove-item { color: #ff4444; cursor: pointer; margin-left: 10px; }
+        .slider:before {
+            position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 3px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--neon-green); border-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+        input:checked + .slider:before { transform: translateX(24px); background-color: #000; }
 
+        /* Checkbox Row */
+        .checkbox-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;
+            margin-bottom: 2rem; cursor: pointer; transition: 0.3s; border: 1px solid transparent;
+        }
+        .checkbox-row:hover { border-color: var(--neon-green); }
+        .checkbox-row span { font-size: 1rem; color: #fff; }
+
+        /* RESUMEN COTIZACIÓN */
+        .summary-box {
+            margin-top: 3rem; background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon-green); border-radius: 12px; padding: 2rem;
+        }
+        .summary-header { color: var(--neon-green); text-transform: uppercase; font-size: 1.1rem; border-bottom: 1px dashed rgba(255,255,255,0.2); padding-bottom: 15px; margin-bottom: 15px; letter-spacing: 1px; }
+        .summary-item { display: flex; justify-content: space-between; font-size: 1.1rem; margin-bottom: 12px; color: #ccc; }
+        .summary-item span:last-child { color: #fff; font-weight: bold; }
+        .summary-total { display: flex; justify-content: space-between; margin-top: 20px; border-top: 1px solid var(--neon-green); padding-top: 15px; font-size: 2rem; color: var(--neon-green); font-weight: bold; }
+        .remove-item { color: #ff4444; cursor: pointer; margin-left: 10px; font-size: 0.9rem; }
+
+        /* BOTÓN WHATSAPP */
         .btn-whatsapp {
             display: flex; align-items: center; justify-content: center; gap: 10px;
             width: 100%; margin-top: 20px; padding: 15px;
-            background: var(--whatsapp-green); color: #fff; border: none; border-radius: 8px;
-            font-size: 1.1rem; font-weight: bold; text-transform: uppercase;
+            background: var(--whatsapp-green); color: #fff;
+            border: none; border-radius: 8px;
+            font-size: 1.2rem; font-weight: bold; text-transform: uppercase;
             cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
         }
-        .btn-whatsapp:hover { background: #20bd5a; transform: translateY(-3px); }
+        .btn-whatsapp:hover {
+            background: #20bd5a; transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.5);
+        }
 
         /* --- VISUALIZADOR 3D --- */
         .viewer-container {
-            position: relative; height: 750px;
+            position: relative; height: 800px;
             background: radial-gradient(circle, #132235 0%, transparent 70%);
             border-radius: 16px; overflow: hidden; cursor: grab;
             display: flex; align-items: center; justify-content: center;
             perspective: 2000px;
-            touch-action: none; /* Crucial para móvil */
-            z-index: 1;
+            touch-action: none; 
         }
         .viewer-container:active { cursor: grabbing; }
         .instruction-overlay {
-            position: absolute; bottom: 20px; width: 100%; text-align: center;
-            color: rgba(255,255,255,0.4); font-size: 0.9rem; pointer-events: none; text-transform: uppercase; letter-spacing: 2px;
+            position: absolute; bottom: 40px; width: 100%; text-align: center;
+            color: rgba(255,255,255,0.4); font-size: 1.1rem; pointer-events: none; text-transform: uppercase; letter-spacing: 3px;
         }
 
         /* ESCENA 3D */
-        .scene { position: relative; width: 0; height: 0; transform-style: preserve-3d; transform: rotateX(-20deg) rotateY(35deg); transition: transform 0.05s linear; }
+        .scene {
+            position: relative; width: 0; height: 0;
+            transform-style: preserve-3d;
+            transform: rotateX(-20deg) rotateY(35deg);
+            transition: transform 0.05s linear;
+        }
         .tank { transform-style: preserve-3d; position: absolute; }
-        .face { position: absolute; background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: 0 0 40px rgba(0,255,255,0.05) inset; backface-visibility: visible; transition: all 0.4s ease; }
+        
+        .face {
+            position: absolute; background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 40px rgba(0,255,255,0.05) inset;
+            backface-visibility: visible; transition: all 0.4s ease;
+        }
 
         /* Geometría Pecera */
         .f-front { width: var(--tank-l); height: var(--tank-h); transform: translate(-50%, -50%) translateZ(calc(var(--tank-w) / 2)); pointer-events: none; }
@@ -360,19 +353,39 @@
         .fish-model { position: relative; transform-style: preserve-3d; }
         .fish-part { position: absolute; backface-visibility: visible; }
 
-        /* BETTA */
+        /* --- BETTA (Plano 2.5D) --- */
         .betta .body { width: 30px; height: 12px; background: var(--fish-color); border-radius: 10px; box-shadow: 0 0 8px var(--fish-color); }
         .betta .tail { width: 45px; height: 35px; background: linear-gradient(90deg, var(--fish-color), transparent); top: -10px; left: -38px; border-radius: 50% 0 0 50%; opacity: 0.9; transform-origin: right center; animation: tail-wag 0.8s ease-in-out infinite alternate; }
         .betta .fin { width: 15px; height: 10px; background: var(--fish-color); top: 8px; left: 5px; transform: rotateX(45deg); opacity: 0.7; }
 
-        /* GOLDFISH */
-        .gold .body { width: 34px; height: 24px; background: var(--fish-body-grad); border-radius: 50% 50% 40% 40%; box-shadow: inset -2px -2px 6px rgba(0,0,0,0.2); }
-        .gold .tail { width: 28px; height: 32px; background: radial-gradient(circle at right, var(--fish-tail-color), transparent); position: absolute; top: -4px; left: -20px; border-radius: 50% 0 0 50%; opacity: 0.9; transform-origin: right center; animation: tail-wag 0.5s ease-in-out infinite alternate; }
-        .gold .dorsal { width: 16px; height: 10px; background: var(--fish-tail-color); position: absolute; top: -8px; left: 10px; border-radius: 50% 50% 0 0; opacity: 0.8; transform: translateZ(0); }
-        .gold .pectoral { width: 10px; height: 6px; background: var(--fish-tail-color); position: absolute; top: 14px; left: 18px; opacity: 0.8; animation: fin-flutter 0.2s linear infinite alternate; }
+        /* --- GOLDFISH (Planar 2D Gordito) --- */
+        .gold .body { 
+            width: 34px; height: 24px; 
+            background: var(--fish-body-grad); 
+            border-radius: 50% 50% 40% 40%; /* Forma de huevo */
+            box-shadow: inset -2px -2px 6px rgba(0,0,0,0.2); 
+        }
+        .gold .tail {
+            width: 28px; height: 32px; 
+            background: radial-gradient(circle at right, var(--fish-tail-color), transparent); 
+            position: absolute; top: -4px; left: -20px; 
+            border-radius: 50% 0 0 50%; opacity: 0.9; 
+            transform-origin: right center; animation: tail-wag 0.5s ease-in-out infinite alternate; 
+        }
+        .gold .dorsal {
+            width: 16px; height: 10px; background: var(--fish-tail-color);
+            position: absolute; top: -8px; left: 10px; 
+            border-radius: 50% 50% 0 0; opacity: 0.8; transform: translateZ(0);
+        }
+        .gold .pectoral {
+            width: 10px; height: 6px; background: var(--fish-tail-color);
+            position: absolute; top: 14px; left: 18px; opacity: 0.8;
+            animation: fin-flutter 0.2s linear infinite alternate;
+        }
         .gold .pectoral.left { transform: translateZ(2px) rotateY(45deg); }
         .gold .pectoral.right { transform: translateZ(-2px) rotateY(-45deg); }
 
+        /* Animaciones Globales */
         @keyframes swim-path {
             0%   { transform: translateX(calc(var(--tank-l) * -0.30)) translateY(calc(var(--tank-h) * var(--ratio-y))) translateZ(calc(var(--tank-w) * var(--ratio-z))) rotateY(0deg); }
             49%  { transform: translateX(calc(var(--tank-l) * 0.30))  translateY(calc(var(--tank-h) * var(--ratio-y))) translateZ(calc(var(--tank-w) * var(--ratio-z))) rotateY(0deg); }
@@ -385,15 +398,15 @@
         @keyframes fin-flutter { from { transform: translateZ(2px) rotateY(30deg); } to { transform: translateZ(2px) rotateY(60deg); } }
 
         /* FOOTER */
-        .shop-section { padding: 2rem; background: #050f1e; border-top: 1px solid rgba(255,255,255,0.05); margin-top: auto; flex-shrink: 0; }
+        .shop-section { padding: 2rem; background: #050f1e; border-top: 1px solid rgba(255,255,255,0.05); margin-top: auto; }
         .shop-title { margin-bottom: 1.5rem; padding-left: 2rem; color: var(--neon-cyan); font-size: 1.5rem; border-left: 4px solid var(--neon-cyan); text-transform: uppercase; }
         .carousel-container { display: flex; overflow-x: auto; gap: 2rem; padding: 1rem 2rem; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--neon-cyan) #020b14; }
         .product-card { flex: 0 0 260px; scroll-snap-align: start; background: #0f172a; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; transition: transform 0.3s, border-color 0.3s; display: flex; flex-direction: column; }
-        .product-card:hover { transform: translateY(-5px); border-color: var(--neon-cyan); box-shadow: 0 5px 15px rgba(0,255,255,0.1); }
+        .product-card:hover { transform: translateY(-10px); border-color: var(--neon-cyan); box-shadow: 0 10px 20px rgba(0,255,255,0.1); }
         .p-img { height: 180px; background: #1e293b; border-radius: 8px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-size: 4rem; overflow: hidden; }
-        .p-name { font-size: 1rem; margin-bottom: 0.5rem; color: #fff; font-weight: 600; }
-        .p-price { color: var(--neon-green); font-weight: bold; font-size: 1.2rem; margin-bottom: 1rem; }
-        .p-btn { margin-top: auto; width: 100%; padding: 10px; background: transparent; border: 2px solid var(--neon-cyan); color: var(--neon-cyan); cursor: pointer; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; transition: all 0.3s; font-size: 0.8rem; }
+        .p-name { font-size: 1.1rem; margin-bottom: 0.5rem; color: #fff; font-weight: 600; }
+        .p-price { color: var(--neon-green); font-weight: bold; font-size: 1.3rem; margin-bottom: 1rem; }
+        .p-btn { margin-top: auto; width: 100%; padding: 12px; background: transparent; border: 2px solid var(--neon-cyan); color: var(--neon-cyan); cursor: pointer; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; transition: all 0.3s; font-size: 0.9rem; }
         .p-btn:hover { background: var(--neon-cyan); color: #020b14; box-shadow: 0 0 15px var(--neon-cyan); }
     </style>
 </head>
@@ -403,8 +416,8 @@
 
     <header>
         <div class="title-container">
-            <h1>Alekiu</h1>
-            <h2>FISH</h2>
+            <h1>Alekiu <span>FISH</span></h1>
+            <!-- Cardumen de peces decorativos -->
             <div class="title-fish tf-1"></div>
             <div class="title-fish tf-2"></div>
             <div class="title-fish tf-3"></div>
@@ -426,17 +439,19 @@
                         <p id="recDesc">Calculando filtración...</p>
                     </div>
                 </div>
-                <div class="filter-switch-container">
-                    <span style="font-size:0.7rem; color:var(--neon-green); margin-bottom:3px;">INCLUIR</span>
+                <div class="toggle-container">
+                    <span class="toggle-label">Incluir</span>
                     <label class="neon-switch">
                         <input type="checkbox" id="checkFilter" checked onchange="updateTank()">
                         <span class="slider"></span>
                     </label>
-                    <span style="font-size:0.7rem; color:#aaa;">+S/ <span id="filterPriceDisplay">0</span></span>
+                    <span style="font-size:0.8rem; color:#aaa;">+S/ <span id="filterPriceDisplay">0</span></span>
                 </div>
             </div>
 
             <br>
+
+            <!-- Inputs -->
             <h3>Dimensiones (cm)</h3>
             <div class="input-group">
                 <label>Largo (Frontal)</label>
@@ -453,7 +468,7 @@
 
             <h3>Acabados</h3>
             <label>Borde / Estructura</label>
-            <div class="radio-options" id="finish-options">
+            <div class="radio-options">
                 <div class="radio-btn active" onclick="setFinish('rimless', this)">Sin Marco (S/ 0)</div>
                 <div class="radio-btn" onclick="setFinish('metal', this)">Aluminio (+S/ 50)</div>
             </div>
@@ -466,12 +481,14 @@
             </select>
 
             <br><br>
-            <h3>Extras</h3>
-            <label>Base Estructura</label>
-            <div class="radio-options" id="base-options">
-                <div class="radio-btn active" onclick="setBase(false, this)">No Incluir</div>
-                <div class="radio-btn" onclick="setBase(true, this)">Base Madera (+S/ 150)</div>
-            </div>
+            <!-- Switch Base de Madera -->
+            <label class="checkbox-row">
+                <span>Incluir Base de Madera 3D (+S/ 150)</span>
+                <div class="neon-switch">
+                    <input type="checkbox" id="checkBase" onchange="updateTank()">
+                    <span class="slider"></span>
+                </div>
+            </label>
 
             <!-- Resumen -->
             <div class="summary-box">
@@ -545,281 +562,273 @@
     </section>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let currentScale = 6;
-            let currentFinish = 'rimless';
-            let currentBase = false; 
-            let cart = [];
-            let currentTotal = 0;
+        let currentScale = 6;
+        let currentFinish = 'rimless';
+        let cart = [];
+        let currentTotal = 0;
 
-            // DOM Elements
-            const root = document.documentElement;
-            const inpL = document.getElementById('inpL'), inpH = document.getElementById('inpH'), inpW = document.getElementById('inpW');
-            const txtLiters = document.getElementById('txtLiters');
-            const tankEl = document.getElementById('tank'), selLid = document.getElementById('selLid');
-            const woodLidGroup = document.getElementById('woodLidGroup'), glassLidGroup = document.getElementById('glassLidGroup'), woodBaseGroup = document.getElementById('woodBaseGroup');
-            const checkBase = document.getElementById('checkBase');
-            const lifeContainer = document.getElementById('lifeContainer');
-            const orderList = document.getElementById('orderList'), totalPriceEl = document.getElementById('totalPrice');
-            const checkFilter = document.getElementById('checkFilter'), filterPriceDisplay = document.getElementById('filterPriceDisplay');
-            const recIcon = document.getElementById('recIcon'), recTitle = document.getElementById('recTitle'), recDesc = document.getElementById('recDesc');
+        // DOM Elements
+        const root = document.documentElement;
+        const inpL = document.getElementById('inpL'), inpH = document.getElementById('inpH'), inpW = document.getElementById('inpW');
+        const txtLiters = document.getElementById('txtLiters');
+        const tankEl = document.getElementById('tank'), selLid = document.getElementById('selLid');
+        const woodLidGroup = document.getElementById('woodLidGroup'), glassLidGroup = document.getElementById('glassLidGroup'), woodBaseGroup = document.getElementById('woodBaseGroup');
+        const checkBase = document.getElementById('checkBase');
+        const lifeContainer = document.getElementById('lifeContainer');
+        const orderList = document.getElementById('orderList'), totalPriceEl = document.getElementById('totalPrice');
+        const checkFilter = document.getElementById('checkFilter'), filterPriceDisplay = document.getElementById('filterPriceDisplay');
+        const recIcon = document.getElementById('recIcon'), recTitle = document.getElementById('recTitle'), recDesc = document.getElementById('recDesc');
 
-            // Exponer funciones al contexto global para que los onclick funcionen
-            window.setFinish = function(t, btn) {
-                document.getElementById('finish-options').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFinish = t; updateTank();
-            };
+        // Scale detection
+        function determineScale() {
+            currentScale = window.innerWidth < 768 ? 2.8 : 6;
+            updateTank();
+        }
+        window.addEventListener('resize', determineScale);
 
-            window.setBase = function(hasBase, btn) {
-                document.getElementById('base-options').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentBase = hasBase; 
-                updateTank();
-            };
+        function updateTank() {
+            let l = parseFloat(inpL.value) || 30;
+            let h = parseFloat(inpH.value) || 30;
+            let w = parseFloat(inpW.value) || 30;
+            let volume = (l * h * w) / 1000;
+            txtLiters.innerText = Math.round(volume);
 
-            window.addToCart = function(n, p) { 
-                cart.push({name:n, price:p}); updateTank(); 
-            };
+            root.style.setProperty('--tank-l', (l * currentScale) + 'px');
+            root.style.setProperty('--tank-h', (h * currentScale) + 'px');
+            root.style.setProperty('--tank-w', (w * currentScale) + 'px');
 
-            window.removeFromCart = function(i) { 
-                cart.splice(i, 1); updateTank(); 
-            };
+            let filterData = getFilterData(volume);
+            recIcon.innerText = filterData.icon;
+            recTitle.innerText = filterData.name;
+            recDesc.innerText = filterData.desc;
+            filterPriceDisplay.innerText = filterData.price;
 
-            window.updateTank = function() {
-                let l = parseFloat(inpL.value) || 30;
-                let h = parseFloat(inpH.value) || 30;
-                let w = parseFloat(inpW.value) || 30;
-                let volume = (l * h * w) / 1000;
-                txtLiters.innerText = Math.round(volume);
+            woodLidGroup.classList.remove('visible');
+            glassLidGroup.classList.remove('visible');
+            woodBaseGroup.classList.remove('visible');
 
-                root.style.setProperty('--tank-l', (l * currentScale) + 'px');
-                root.style.setProperty('--tank-h', (h * currentScale) + 'px');
-                root.style.setProperty('--tank-w', (w * currentScale) + 'px');
+            if(selLid.value === 'wood') woodLidGroup.classList.add('visible');
+            if(selLid.value === 'glass') glassLidGroup.classList.add('visible');
+            if(checkBase.checked) woodBaseGroup.classList.add('visible');
 
-                let filterData = getFilterData(volume);
-                recIcon.innerText = filterData.icon;
-                recTitle.innerText = filterData.name;
-                recDesc.innerText = filterData.desc;
-                filterPriceDisplay.innerText = filterData.price;
+            tankEl.classList.toggle('metal-mode', currentFinish === 'metal');
 
-                woodLidGroup.classList.remove('visible');
-                glassLidGroup.classList.remove('visible');
-                woodBaseGroup.classList.remove('visible');
+            calculateQuote(volume, filterData);
+            generateLife(volume);
+        }
 
-                if(selLid.value === 'wood') woodLidGroup.classList.add('visible');
-                if(selLid.value === 'glass') glassLidGroup.classList.add('visible');
-                if(currentBase) woodBaseGroup.classList.add('visible');
+        function getFilterData(vol) {
+            if (vol < 40) return { name: "Filtro Cascada Mini", price: 45, icon: "💧", desc: "Para nano acuarios" };
+            if (vol < 100) return { name: "Filtro Interno/Cascada", price: 85, icon: "🔋", desc: "Filtración media" };
+            if (vol < 250) return { name: "Canister Externo", price: 380, icon: "🛢️", desc: "Agua cristalina" };
+            return { name: "Sump Profesional", price: 650, icon: "🏭", desc: "Filtración industrial" };
+        }
 
-                tankEl.classList.toggle('metal-mode', currentFinish === 'metal');
+        function calculateQuote(liters, filterData) {
+            let basePrice = 0;
+            if (liters <= 30) basePrice = 50;
+            else if (liters <= 50) basePrice = 70;
+            else if (liters <= 80) basePrice = 100;
+            else if (liters <= 100) basePrice = 200;
+            else if (liters <= 120) basePrice = 220;
+            else if (liters <= 150) basePrice = 250;
+            else if (liters <= 200) basePrice = 300;
+            else basePrice = 300 + ((liters - 200) * 2);
 
-                calculateQuote(volume, filterData);
-                generateLife(volume);
-            };
-
-            window.sendToWhatsapp = function() {
-                let l = parseFloat(inpL.value);
-                let h = parseFloat(inpH.value);
-                let w = parseFloat(inpW.value);
-                let liters = Math.round((l * h * w) / 1000);
-                
-                let basePrice = 0;
-                if (liters <= 30) basePrice = 50;
-                else if (liters <= 50) basePrice = 70;
-                else if (liters <= 80) basePrice = 100;
-                else if (liters <= 100) basePrice = 200;
-                else if (liters <= 120) basePrice = 220;
-                else if (liters <= 150) basePrice = 250;
-                else if (liters <= 200) basePrice = 300;
-                else basePrice = 300 + ((liters - 200) * 2);
-
-                let finishPrice = (currentFinish === 'metal') ? 50 : 0;
-                let finishName = (currentFinish === 'metal') ? 'Marco Aluminio' : 'Sin Marco (Acabado Lujo)';
-                
-                let lidPrice = 0;
-                let lidName = 'Sin Tapa';
-                if (selLid.value === 'wood') { lidPrice = 100; lidName = 'Tapa de Madera 3D'; }
-                if (selLid.value === 'glass') { lidPrice = 10; lidName = 'Tapa de Vidrio 3D'; }
-
-                let baseCost = currentBase ? 150 : 0;
-                let filterCost = checkFilter.checked ? parseInt(filterPriceDisplay.innerText) : 0;
-
-                let msg = `*Hola Alekiu FISH! Quiero hacer realidad este acuario:*\n\n`;
-                msg += `*DETALLES DE LA COTIZACION:*\n\n`;
-                msg += `*Medidas:* ${l}x${h}x${w} cm\n`;
-                msg += `*Volumen:* ${liters} Litros (S/ ${basePrice.toFixed(2)})\n\n`;
-                msg += `*Estilo:* ${finishName} (+S/ ${finishPrice.toFixed(2)})\n`;
-                msg += `*Tapa:* ${lidName} (+S/ ${lidPrice.toFixed(2)})\n`;
-                
-                if(currentBase) {
-                    msg += `*Base:* Estructura Madera 3D (+S/ 150.00)\n`;
-                }
-
-                if(checkFilter.checked) {
-                    msg += `*Sistema:* ${recTitle.innerText} (+S/ ${filterCost.toFixed(2)})\n`;
-                }
-
-                if(cart.length > 0) {
-                    msg += `\n*ACCESORIOS EXTRA:*\n`;
-                    cart.forEach(item => {
-                        msg += `- ${item.name} (S/ ${item.price.toFixed(2)})\n`;
-                    });
-                }
-
-                msg += `\n*INVERSION TOTAL:* S/ ${currentTotal.toFixed(2)}\n\n`;
-                msg += `*Por favor, confirmenme disponibilidad.*`;
-
-                let encodedMsg = encodeURIComponent(msg);
-                window.open(`https://wa.me/51908761978?text=${encodedMsg}`, '_blank');
-            };
-
-            function getFilterData(vol) {
-                if (vol < 40) return { name: "Filtro Cascada Mini", price: 45, icon: "💧", desc: "Para nano acuarios" };
-                if (vol < 100) return { name: "Filtro Interno/Cascada", price: 85, icon: "🔋", desc: "Filtración media" };
-                if (vol < 250) return { name: "Canister Externo", price: 380, icon: "🛢️", desc: "Agua cristalina" };
-                return { name: "Sump Profesional", price: 650, icon: "🏭", desc: "Filtración industrial" };
-            }
-
-            function calculateQuote(liters, filterData) {
-                let basePrice = 0;
-                if (liters <= 30) basePrice = 50;
-                else if (liters <= 50) basePrice = 70;
-                else if (liters <= 80) basePrice = 100;
-                else if (liters <= 100) basePrice = 200;
-                else if (liters <= 120) basePrice = 220;
-                else if (liters <= 150) basePrice = 250;
-                else if (liters <= 200) basePrice = 300;
-                else basePrice = 300 + ((liters - 200) * 2);
-
-                let finishPrice = (currentFinish === 'metal') ? 50 : 0;
-                
-                let lidPrice = 0;
-                if (selLid.value === 'wood') lidPrice = 100; 
-                if (selLid.value === 'glass') lidPrice = 10;
-
-                let baseCost = currentBase ? 150 : 0;
-                let filterCost = checkFilter.checked ? filterData.price : 0;
-
-                let html = `
-                    <div class="summary-item"><span>Pecera Base (${Math.round(liters)}L)</span><span>S/ ${basePrice.toFixed(2)}</span></div>
-                    <div class="summary-item"><span>${(currentFinish === 'metal') ? 'Marco Aluminio' : 'Sin Marco'}</span><span>S/ ${finishPrice.toFixed(2)}</span></div>
-                    <div class="summary-item"><span>${selLid.options[selLid.selectedIndex].text.split('(')[0]}</span><span>S/ ${lidPrice.toFixed(2)}</span></div>
-                `;
-
-                if(currentBase) html += `<div class="summary-item"><span>Base Madera 3D</span><span>S/ ${baseCost.toFixed(2)}</span></div>`;
-                if(checkFilter.checked) html += `<div class="summary-item" style="color:var(--neon-green);"><span>✅ ${filterData.name}</span><span>S/ ${filterCost.toFixed(2)}</span></div>`;
-
-                let accTotal = 0;
-                cart.forEach((item, idx) => {
-                    accTotal += item.price;
-                    html += `<div class="summary-item"><span>${item.name} <small class="remove-item" onclick="removeFromCart(${idx})">[X]</small></span><span>S/ ${item.price.toFixed(2)}</span></div>`;
-                });
-
-                orderList.innerHTML = html;
-                currentTotal = basePrice + finishPrice + lidPrice + baseCost + filterCost + accTotal;
-                totalPriceEl.innerText = "S/ " + currentTotal.toFixed(2);
-            }
-
-            function generateLife(liters) {
-                let targetCount;
-                if(liters < 60) targetCount = Math.floor(Math.random() * 3) + 1; 
-                else if(liters <= 150) targetCount = Math.floor(Math.random() * 3) + 3; 
-                else targetCount = Math.floor(Math.random() * 3) + 5; 
-
-                if (lifeContainer.childElementCount === targetCount) return;
-
-                lifeContainer.innerHTML = '';
-                const colorsBetta = ['#00FFFF', '#FF0000', '#FFFFFF'];
-                const colorsGoldfish = [
-                    { b: 'linear-gradient(to right, #FFD700, #ffffff)', t: '#FFD700' }, 
-                    { b: 'linear-gradient(to right, #FFA500, #ffffff)', t: '#FFA500' }, 
-                    { b: 'linear-gradient(to right, #FF4500, #eeeeee)', t: '#FF4500' }  
-                ];
-
-                for(let i=0; i<targetCount; i++) {
-                    const type = Math.random() > 0.6 ? 'betta' : 'gold';
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'fish-wrapper';
-
-                    const ratioY = (Math.random() * 0.6) - 0.25; 
-                    const ratioZ = (Math.random() * 0.8 - 0.4); 
-
-                    wrapper.style.setProperty('--ratio-y', ratioY);
-                    wrapper.style.setProperty('--ratio-z', ratioZ);
-                    wrapper.style.animationDuration = (15 + Math.random()*10) + 's';
-                    wrapper.style.animationDelay = (Math.random()*-20) + 's';
-                    let scale = 0.7 + Math.random() * 0.5;
-                    wrapper.style.transform = `scale(${scale})`;
-
-                    const model = document.createElement('div');
-                    model.className = `fish-model ${type}`;
-
-                    if(type === 'betta') {
-                        let c = colorsBetta[Math.floor(Math.random() * colorsBetta.length)];
-                        model.style.setProperty('--fish-color', c);
-                        model.innerHTML = `<div class="fish-part body"></div><div class="fish-part tail"></div><div class="fish-part fin"></div>`;
-                    } else {
-                        let p = colorsGoldfish[Math.floor(Math.random() * colorsGoldfish.length)];
-                        model.style.setProperty('--fish-body-grad', p.b);
-                        model.style.setProperty('--fish-tail-color', p.t);
-                        model.innerHTML = `<div class="fish-part body"></div><div class="fish-part tail"></div><div class="fish-part dorsal"></div><div class="fish-part pectoral left"></div><div class="fish-part pectoral right"></div>`;
-                    }
-                    wrapper.appendChild(model);
-                    lifeContainer.appendChild(wrapper);
-                }
-            }
-
-            function determineScale() {
-                currentScale = window.innerWidth < 768 ? 2.8 : 6;
-                updateTank();
-            }
-
-            // Initialize
-            [inpL, inpH, inpW].forEach(el => el.addEventListener('input', updateTank));
-            window.addEventListener('resize', determineScale);
+            let finishPrice = (currentFinish === 'metal') ? 50 : 0;
+            let finishName = (currentFinish === 'metal') ? 'Marco Aluminio' : 'Sin Marco';
             
-            // Build Shop
-            const products = [
-                { n: "Filtro Canister Pro", p: 350, i: "🛢️" }, { n: "Luz LED Full Spectrum", p: 180, i: "💡" },
-                { n: "Roca Dragón (Kg)", p: 15, i: "🪨" }, { n: "Raíz Roja (Driftwood)", p: 45, i: "🪵" },
-                { n: "Sustrato Japonés", p: 120, i: "🌱" }, { n: "Sistema CO2 2L", p: 450, i: "🫧" },
-                { n: "Calentador Titanio", p: 80, i: "🌡️" }, { n: "Alimento Granulado", p: 35, i: "🐟" },
-                { n: "Limpiador Magnético", p: 40, i: "🧲" }
-            ];
-            const carousel = document.getElementById('shopCarousel');
-            products.forEach(prod => {
-                carousel.innerHTML += `
-                    <div class="product-card">
-                        <div class="p-img">${prod.i}</div><div class="p-name">${prod.n}</div><div class="p-price">S/ ${prod.p.toFixed(2)}</div>
-                        <button class="p-btn" onclick="addToCart('${prod.n}', ${prod.p})">Añadir +</button>
-                    </div>`;
+            let lidPrice = 0;
+            let lidName = 'Sin Tapa';
+            if (selLid.value === 'wood') { lidPrice = 100; lidName = 'Tapa Madera 3D'; }
+            if (selLid.value === 'glass') { lidPrice = 10; lidName = 'Tapa Vidrio 3D'; }
+
+            let baseCost = checkBase.checked ? 150 : 0;
+
+            let html = `
+                <div class="summary-item"><span>Pecera Base (${Math.round(liters)}L)</span><span>S/ ${basePrice.toFixed(2)}</span></div>
+                <div class="summary-item"><span>${finishName}</span><span>S/ ${finishPrice.toFixed(2)}</span></div>
+                <div class="summary-item"><span>${lidName}</span><span>S/ ${lidPrice.toFixed(2)}</span></div>
+            `;
+
+            if(checkBase.checked) html += `<div class="summary-item"><span>Base Madera 3D</span><span>S/ ${baseCost.toFixed(2)}</span></div>`;
+
+            let filterCost = checkFilter.checked ? filterData.price : 0;
+            if (checkFilter.checked) html += `<div class="summary-item" style="color:var(--neon-green);"><span>✅ ${filterData.name}</span><span>S/ ${filterCost.toFixed(2)}</span></div>`;
+
+            let accTotal = 0;
+            cart.forEach((item, idx) => {
+                accTotal += item.price;
+                html += `<div class="summary-item"><span>${item.name} <small class="remove-item" onclick="removeFromCart(${idx})">[X]</small></span><span>S/ ${item.price.toFixed(2)}</span></div>`;
             });
 
-            // 3D Rotator Logic
-            const viewer = document.getElementById('viewer'), scene = document.getElementById('scene');
-            let isDragging = false, startX, startY, rotX = -15, rotY = 35;
-            const startDrag = (x, y) => { isDragging = true; startX = x; startY = y; viewer.style.cursor = 'grabbing'; };
-            const stopDrag = () => { isDragging = false; viewer.style.cursor = 'grab'; };
-            const moveDrag = (x, y) => {
-                if(!isDragging) return;
-                let dX = x - startX, dY = y - startY;
-                rotY += dX * 0.3; rotX -= dY * 0.3;
-                rotX = Math.max(-90, Math.min(90, rotX));
-                scene.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-                startX = x; startY = y;
-            };
-            viewer.addEventListener('mousedown', e => startDrag(e.clientX, e.clientY));
-            window.addEventListener('mouseup', stopDrag);
-            window.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
-            viewer.addEventListener('touchstart', e => startDrag(e.touches[0].clientX, e.touches[0].clientY), {passive: false});
-            window.addEventListener('touchend', stopDrag);
-            viewer.addEventListener('touchmove', e => {
-                if(isDragging) e.preventDefault();
-                moveDrag(e.touches[0].clientX, e.touches[0].clientY);
-            }, {passive: false});
+            orderList.innerHTML = html;
+            currentTotal = basePrice + finishPrice + lidPrice + baseCost + filterCost + accTotal;
+            totalPriceEl.innerText = "S/ " + currentTotal.toFixed(2);
+        }
 
-            determineScale();
+        // WHATSAPP SIN EMOJIS
+        function sendToWhatsapp() {
+            let l = parseFloat(inpL.value);
+            let h = parseFloat(inpH.value);
+            let w = parseFloat(inpW.value);
+            let liters = Math.round((l * h * w) / 1000);
+            
+            let basePrice = 0;
+            if (liters <= 30) basePrice = 50;
+            else if (liters <= 50) basePrice = 70;
+            else if (liters <= 80) basePrice = 100;
+            else if (liters <= 100) basePrice = 200;
+            else if (liters <= 120) basePrice = 220;
+            else if (liters <= 150) basePrice = 250;
+            else if (liters <= 200) basePrice = 300;
+            else basePrice = 300 + ((liters - 200) * 2);
+
+            let finishPrice = (currentFinish === 'metal') ? 50 : 0;
+            let finishName = (currentFinish === 'metal') ? 'Marco Aluminio' : 'Sin Marco (Acabado Lujo)';
+            
+            let lidPrice = 0;
+            let lidName = 'Sin Tapa';
+            if (selLid.value === 'wood') { lidPrice = 100; lidName = 'Tapa de Madera 3D'; }
+            if (selLid.value === 'glass') { lidPrice = 10; lidName = 'Tapa de Vidrio 3D'; }
+
+            let baseCost = checkBase.checked ? 150 : 0;
+            let filterCost = checkFilter.checked ? parseInt(filterPriceDisplay.innerText) : 0;
+
+            let msg = `*Hola Alekiu FISH! Quiero hacer realidad este acuario:*\n\n`;
+            msg += `*DETALLES DE LA COTIZACION:*\n\n`;
+            
+            msg += `*Medidas:* ${l}x${h}x${w} cm\n`;
+            msg += `*Volumen:* ${liters} Litros (S/ ${basePrice.toFixed(2)})\n\n`;
+            
+            msg += `*Estilo:* ${finishName} (+S/ ${finishPrice.toFixed(2)})\n`;
+            msg += `*Tapa:* ${lidName} (+S/ ${lidPrice.toFixed(2)})\n`;
+            
+            if(checkBase.checked) {
+                msg += `*Base:* Estructura Madera 3D (+S/ 150.00)\n`;
+            }
+
+            if(checkFilter.checked) {
+                msg += `*Sistema:* ${recTitle.innerText} (+S/ ${filterCost.toFixed(2)})\n`;
+            }
+
+            if(cart.length > 0) {
+                msg += `\n*ACCESORIOS EXTRA:*\n`;
+                cart.forEach(item => {
+                    msg += `- ${item.name} (S/ ${item.price.toFixed(2)})\n`;
+                });
+            }
+
+            msg += `\n*INVERSION TOTAL:* S/ ${currentTotal.toFixed(2)}\n\n`;
+            msg += `*Por favor, confirmenme disponibilidad.*`;
+
+            let encodedMsg = encodeURIComponent(msg);
+            window.open(`https://wa.me/51908761978?text=${encodedMsg}`, '_blank');
+        }
+
+        function generateLife(liters) {
+            let targetCount;
+            if(liters < 60) targetCount = Math.floor(Math.random() * 3) + 1; // 1 a 3
+            else if(liters <= 150) targetCount = Math.floor(Math.random() * 3) + 3; // 3 a 5
+            else targetCount = Math.floor(Math.random() * 3) + 5; // 5 a 7
+
+            if (lifeContainer.childElementCount === targetCount) return;
+
+            lifeContainer.innerHTML = '';
+            const colorsBetta = ['#00FFFF', '#FF0000', '#FFFFFF'];
+            const colorsGoldfish = [
+                { b: 'linear-gradient(to right, #FFD700, #ffffff)', t: '#FFD700' }, 
+                { b: 'linear-gradient(to right, #FFA500, #ffffff)', t: '#FFA500' }, 
+                { b: 'linear-gradient(to right, #FF4500, #eeeeee)', t: '#FF4500' }  
+            ];
+
+            for(let i=0; i<targetCount; i++) {
+                const type = Math.random() > 0.6 ? 'betta' : 'gold';
+                const wrapper = document.createElement('div');
+                wrapper.className = 'fish-wrapper';
+
+                const ratioY = (Math.random() * 0.6) - 0.25; 
+                const ratioZ = (Math.random() * 0.8 - 0.4); 
+
+                wrapper.style.setProperty('--ratio-y', ratioY);
+                wrapper.style.setProperty('--ratio-z', ratioZ);
+                wrapper.style.animationDuration = (15 + Math.random()*10) + 's';
+                wrapper.style.animationDelay = (Math.random()*-20) + 's';
+                let scale = 0.7 + Math.random() * 0.5;
+                wrapper.style.transform = `scale(${scale})`;
+
+                const model = document.createElement('div');
+                model.className = `fish-model ${type}`;
+
+                if(type === 'betta') {
+                    let c = colorsBetta[Math.floor(Math.random() * colorsBetta.length)];
+                    model.style.setProperty('--fish-color', c);
+                    model.innerHTML = `<div class="fish-part body"></div><div class="fish-part tail"></div><div class="fish-part fin"></div>`;
+                } else {
+                    let p = colorsGoldfish[Math.floor(Math.random() * colorsGoldfish.length)];
+                    model.style.setProperty('--fish-body-grad', p.b);
+                    model.style.setProperty('--fish-tail-color', p.t);
+                    // Goldfish 2D Simplificado (Gordito)
+                    model.innerHTML = `<div class="fish-part body"></div><div class="fish-part tail"></div><div class="fish-part dorsal"></div><div class="fish-part pectoral left"></div><div class="fish-part pectoral right"></div>`;
+                }
+                wrapper.appendChild(model);
+                lifeContainer.appendChild(wrapper);
+            }
+        }
+
+        function setFinish(t, btn) {
+            document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFinish = t; updateTank();
+        }
+        function addToCart(n, p) { cart.push({name:n, price:p}); updateTank(); }
+        function removeFromCart(i) { cart.splice(i, 1); updateTank(); }
+
+        [inpL, inpH, inpW].forEach(el => el.addEventListener('input', updateTank));
+
+        const viewer = document.getElementById('viewer'), scene = document.getElementById('scene');
+        let isDragging = false, startX, startY, rotX = -15, rotY = 35;
+        const startDrag = (x, y) => { isDragging = true; startX = x; startY = y; viewer.style.cursor = 'grabbing'; };
+        const stopDrag = () => { isDragging = false; viewer.style.cursor = 'grab'; };
+        const moveDrag = (x, y) => {
+            if(!isDragging) return;
+            let dX = x - startX, dY = y - startY;
+            rotY += dX * 0.3; rotX -= dY * 0.3;
+            rotX = Math.max(-90, Math.min(90, rotX));
+            scene.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            startX = x; startY = y;
+        };
+        
+        viewer.addEventListener('mousedown', e => startDrag(e.clientX, e.clientY));
+        window.addEventListener('mouseup', stopDrag);
+        window.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
+        
+        // Touch Mobile
+        viewer.addEventListener('touchstart', e => startDrag(e.touches[0].clientX, e.touches[0].clientY), {passive: false});
+        window.addEventListener('touchend', stopDrag);
+        viewer.addEventListener('touchmove', e => {
+            if(isDragging) e.preventDefault();
+            moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+        }, {passive: false});
+
+        const products = [
+            { n: "Filtro Canister Pro", p: 350, i: "🛢️" }, { n: "Luz LED Full Spectrum", p: 180, i: "💡" },
+            { n: "Roca Dragón (Kg)", p: 15, i: "🪨" }, { n: "Raíz Roja (Driftwood)", p: 45, i: "🪵" },
+            { n: "Sustrato Japonés", p: 120, i: "🌱" }, { n: "Sistema CO2 2L", p: 450, i: "🫧" },
+            { n: "Calentador Titanio", p: 80, i: "🌡️" }, { n: "Alimento Granulado", p: 35, i: "🐟" },
+            { n: "Limpiador Magnético", p: 40, i: "🧲" }
+        ];
+        const carousel = document.getElementById('shopCarousel');
+        products.forEach(prod => {
+            carousel.innerHTML += `
+                <div class="product-card">
+                    <div class="p-img">${prod.i}</div><div class="p-name">${prod.n}</div><div class="p-price">S/ ${prod.p.toFixed(2)}</div>
+                    <button class="p-btn" onclick="addToCart('${prod.n}', ${prod.p})">Añadir +</button>
+                </div>`;
         });
+
+        determineScale();
+        updateTank();
     </script>
 </body>
 </html>
