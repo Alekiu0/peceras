@@ -21,7 +21,7 @@
             --tank-l: 300px; --tank-h: 200px; --tank-w: 150px;
             --wood-h: 25px; --glass-lid-h: 4px;
             
-            /* CAMBIO: Tecnopor más delgado (10px) */
+            /* Tecnopor */
             --tecnopor-h: 10px; 
             --glass-thick: 2px;
             
@@ -38,7 +38,7 @@
             color: var(--text-main);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             overflow: hidden;
-            height: 100vh; /* Fallback */
+            height: 100dvh; /* Altura dinámica real */
             width: 100vw;
             display: flex;
         }
@@ -110,7 +110,7 @@
             margin-left: 5px; font-weight: bold; text-shadow: 0 0 10px rgba(41, 121, 255, 0.5);
         }
 
-        /* --- HISTORIA DE MARCA (IZQUIERDA) --- */
+        /* --- HISTORIA DE MARCA --- */
         .brand-story {
             position: absolute; top: 160px; left: 40px; 
             width: 240px; 
@@ -138,7 +138,7 @@
         .ti-content strong { display: block; color: #fff; font-size: 0.85rem; }
         .ti-content span { display: block; color: #777; font-size: 0.75rem; line-height: 1.2; }
 
-        /* --- LIVE DATA (DERECHA) --- */
+        /* --- LIVE DATA --- */
         .live-specs {
             position: absolute; top: 160px; right: 440px; width: 240px; 
             background: linear-gradient(180deg, rgba(0, 10, 20, 0.9) 0%, rgba(0,0,0,0) 100%);
@@ -161,14 +161,14 @@
 
         /* --- CONTROLES FLOTANTES --- */
         .controls-deck {
-            position: absolute; bottom: 100px;
+            position: absolute; bottom: 80px;
             display: flex; gap: 20px; z-index: 20;
             left: 50%; transform: translateX(-50%);
         }
 
         .control-module {
-            background: rgba(10, 15, 25, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.15);
             border-radius: 12px; padding: 12px; width: 140px;
             display: flex; flex-direction: column; align-items: center;
@@ -246,7 +246,7 @@
             color: #fff; box-shadow: 0 0 10px rgba(0,255,255,0.2) inset; font-weight: bold;
         }
 
-        /* --- BOLETA DIGITAL (RECEIPT) --- */
+        /* --- BOLETA DIGITAL --- */
         .receipt-container {
             background: #000; border: 1px solid #333; border-radius: 8px;
             padding: 20px; position: relative;
@@ -300,7 +300,6 @@
             background: rgba(0,0,0,0.8);
             border-top: 1px solid rgba(255,255,255,0.1);
             padding: 15px;
-            /* Se asegura que esté al final del flex container */
             margin-top: auto; 
         }
 
@@ -466,18 +465,24 @@
         @media (max-width: 900px) {
             body {
                 flex-direction: column;
-                height: 100dvh; /* Altura dinámica para celulares */
+                height: 100dvh;
                 overflow: hidden;
             }
+            /* MÁS ESPACIO Y TANKE MÁS ARRIBA PARA QUE NO LO TAPEN LOS CONTROLES */
             .viewer-area {
                 width: 100%;
-                height: 40%; /* Menos altura para dar espacio a controles */
+                height: 45%; 
                 top: 0;
             }
+            .scene { 
+                /* TRUCO: SUBIR EL TANKE EN LA ESCENA */
+                transform: translateY(-50px) rotateX(-15deg) rotateY(35deg) !important;
+            }
+
             .controls-sidebar {
                 position: relative;
                 width: 100%;
-                height: 60%; /* Más espacio para controles */
+                height: 55%; 
                 box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
                 z-index: 30;
                 display: flex; flex-direction: column;
@@ -485,7 +490,7 @@
             .sidebar-scroll { flex: 1; padding-bottom: 20px; }
             
             .summary-sticky {
-                position: relative; margin-top: auto; padding: 15px; 
+                position: relative; margin-top: auto; padding: 12px; 
                 background: #020b14; z-index: 50;
             }
 
@@ -493,12 +498,13 @@
             .floating-header { top: 15px; left: 15px; }
             .brand-title { font-size: 2.2rem; } 
             
-            /* Controles flotantes en móvil */
-            .controls-deck { bottom: 20px; width: 95%; justify-content: space-between; gap: 5px; }
-            .control-module { width: 32%; padding: 5px; }
+            /* Controles flotantes más compactos en móvil */
+            .controls-deck { bottom: 15px; width: 95%; justify-content: space-between; gap: 5px; }
+            .control-module { width: 32%; padding: 5px 2px; }
             .cm-display { font-size: 1.1rem; }
+            .cm-btn { padding: 4px 0; font-size: 1rem; }
             
-            .brand-story, .live-specs { display: none; } /* Ocultar paneles flotantes en móvil */
+            .brand-story, .live-specs { display: none; } 
             .holo-decoration { width: 280px; height: 280px; }
             .shop-tabs { display: flex; overflow-x: auto; gap: 10px; } 
             .tab-block { min-width: 100px; }
@@ -573,18 +579,18 @@
         
         <div class="ls-item">
             <span class="ls-label">Volumen Neto</span>
-            <span class="ls-value"><span id="liveLiters">72</span> L</span>
+            <span class="ls-value"><span id="liveLiters">240</span> L</span>
         </div>
 
         <div class="ls-item">
             <span class="ls-label">Grosor Vidrio</span>
-            <span class="ls-value highlight" id="liveThickness">6mm</span>
+            <span class="ls-value highlight" id="liveThickness">8mm</span>
             <span class="ls-sub">Grado Arquitectónico</span>
         </div>
 
         <div class="ls-item">
             <span class="ls-label">Peso Estimado (Lleno)</span>
-            <span class="ls-value"><span id="liveWeight">80</span> kg</span>
+            <span class="ls-value"><span id="liveWeight">260</span> kg</span>
         </div>
     </div>
 
@@ -680,22 +686,22 @@
                 
                 <div style="font-size:0.8rem; color:#888; margin-bottom:5px;">ACABADO</div>
                 <div class="btn-group" id="finish-options">
-                    <div class="toggle-btn active" onclick="setFinish('rimless', this)">Sin Marco</div>
-                    <div class="toggle-btn" onclick="setFinish('metal', this)">Aluminio</div>
+                    <div class="toggle-btn active" onclick="setFinish('rimless', 'Sin Marco')">Sin Marco</div>
+                    <div class="toggle-btn" onclick="setFinish('metal', 'Aluminio Negro')">Aluminio</div>
                 </div>
                 
                 <div style="font-size:0.8rem; color:#888; margin-bottom:5px;">TAPA</div>
                 <div class="btn-group" id="lid-options">
-                    <div class="toggle-btn active" onclick="setLid('none', this)">Sin Tapa</div>
-                    <div class="toggle-btn" onclick="setLid('glass', this)">Vidrio</div>
-                    <div class="toggle-btn" onclick="setLid('wood', this)">Madera</div>
+                    <div class="toggle-btn active" onclick="setLid('none', 'Sin Tapa')">Sin Tapa</div>
+                    <div class="toggle-btn" onclick="setLid('glass', 'Tapa Vidrio')">Vidrio</div>
+                    <div class="toggle-btn" onclick="setLid('wood', 'Tapa Madera')">Madera</div>
                 </div>
 
                 <div style="font-size:0.8rem; color:#888; margin-bottom:5px;">BASE</div>
                 <div class="btn-group" id="base-options">
-                    <div class="toggle-btn" onclick="setBase('none', this)">Sin Base</div>
-                    <div class="toggle-btn active" onclick="setBase('tecnopor', this)">Tecnopor</div>
-                    <div class="toggle-btn" onclick="setBase('wood', this)">Madera</div>
+                    <div class="toggle-btn" onclick="setBase('none', 'Sin Base')">Sin Base</div>
+                    <div class="toggle-btn active" onclick="setBase('tecnopor', 'Base Tecnopor')">Tecnopor</div>
+                    <div class="toggle-btn" onclick="setBase('wood', 'Base Madera')">Madera</div>
                 </div>
             </div>
 
@@ -761,6 +767,12 @@
             let currentFinish = 'rimless';
             let currentLid = 'none';
             let currentBase = 'tecnopor'; 
+            
+            // Textos legibles para el reporte
+            let textFinish = "Sin Marco";
+            let textLid = "Sin Tapa";
+            let textBase = "Base Tecnopor";
+
             let cart = [];
             let currentTotal = 0;
             let isFilterIncluded = false; 
@@ -807,21 +819,21 @@
                 mod.style.setProperty('--progress', pct + '%');
             }
 
-            // Global Functions
-            window.setFinish = function(val, btn) {
+            // Global Functions (Updated to capture readable text)
+            window.setFinish = function(val, text) {
                 document.querySelectorAll('#finish-options .toggle-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFinish = val; updateTank();
+                event.target.classList.add('active');
+                currentFinish = val; textFinish = text; updateTank();
             }
-            window.setLid = function(val, btn) {
+            window.setLid = function(val, text) {
                 document.querySelectorAll('#lid-options .toggle-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentLid = val; updateTank();
+                event.target.classList.add('active');
+                currentLid = val; textLid = text; updateTank();
             }
-            window.setBase = function(val, btn) {
+            window.setBase = function(val, text) {
                 document.querySelectorAll('#base-options .toggle-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentBase = val; updateTank();
+                event.target.classList.add('active');
+                currentBase = val; textBase = text; updateTank();
             }
 
             window.toggleFilter = function() {
@@ -847,19 +859,16 @@
                 cart.splice(i, 1); updateTank(); 
             };
 
-            // --- CALCULADORA DE PRECIO BASE INTELIGENTE ---
             function getBasePrice(vol) {
-                // Lógica derivada de la lista de precios de imagen
                 if (vol <= 10) return 30;
-                if (vol <= 40) return 20 + vol; // 10L=30, 20L=40, 30L=50, 40L=60
-                if (vol <= 50) return 60 + ((vol - 40) * 2); // 40L=60, 50L=80 (Salto 20)
-                if (vol <= 60) return 80 + ((vol - 50) * 5); // 50L=80, 60L=130 (Salto grande 50)
-                if (vol <= 100) return 130 + ((vol - 60) * 2.5); // 60L=130, 80L=180, 100L=230
-                if (vol <= 250) return 230 + (vol - 100); // 100L=230, 150L=280, 200L=330, 250L=380
-                return 380 + ((vol - 250) * 1.2); // Proyección para > 250L
+                if (vol <= 40) return 20 + vol;
+                if (vol <= 50) return 60 + ((vol - 40) * 2);
+                if (vol <= 60) return 80 + ((vol - 50) * 5);
+                if (vol <= 100) return 130 + ((vol - 60) * 2.5);
+                if (vol <= 250) return 230 + (vol - 100);
+                return 380 + ((vol - 250) * 1.2);
             }
 
-            // --- CALCULADORA PRECIO TAPA VIDRIO ---
             function getGlassLidPrice(vol) {
                 if (vol <= 40) return 10;
                 if (vol <= 80) return 20;
@@ -868,7 +877,6 @@
             }
 
             window.updateTank = function() {
-                // Update HUD displays
                 valL.innerText = dimL; valH.innerText = dimH; valW.innerText = dimW;
                 updateModuleProgress(modL, dimL, 30, 300);
                 updateModuleProgress(modH, dimH, 20, 150);
@@ -876,9 +884,8 @@
 
                 let volume = (dimL * dimH * dimW) / 1000;
                 liveLiters.innerText = Math.round(volume);
-                liveWeight.innerText = Math.round(volume + (volume * 0.1)); // Approx weight + glass
+                liveWeight.innerText = Math.round(volume + (volume * 0.1));
 
-                // Grosor Lógica
                 let thickPx = 2;
                 let thicknessText = "4mm";
 
@@ -890,12 +897,10 @@
                 liveThickness.innerText = thicknessText;
                 root.style.setProperty('--glass-thick', thickPx + 'px');
 
-                // 3D Transforms
                 root.style.setProperty('--tank-l', (dimL * currentScale) + 'px');
                 root.style.setProperty('--tank-h', (dimH * currentScale) + 'px');
                 root.style.setProperty('--tank-w', (dimW * currentScale) + 'px');
 
-                // Visibility
                 woodLidGroup.classList.remove('visible');
                 glassLidGroup.classList.remove('visible');
                 woodBaseGroup.classList.remove('visible');
@@ -908,7 +913,6 @@
 
                 tankEl.classList.toggle('metal-mode', currentFinish === 'metal');
 
-                // AI Recommender
                 let filterData = getFilterData(volume);
                 recTitle.innerText = filterData.name;
                 recDesc.innerText = filterData.desc;
@@ -926,7 +930,6 @@
             }
 
             function calculateReceipt(liters, thicknessText, filterData) {
-                // Nuevo cálculo de precio base usando la función inteligente
                 let basePrice = getBasePrice(liters);
 
                 let items = [];
@@ -936,13 +939,12 @@
                 if (currentLid === 'wood') items.push({ n: "Tapa Madera", p: 115 });
                 if (currentLid === 'glass') items.push({ n: "Tapa Vidrio", p: getGlassLidPrice(liters) });
                 if (currentBase === 'wood') items.push({ n: "Base Madera", p: 115 });
-                if (currentBase === 'tecnopor') items.push({ n: "Base Tecnopor", p: 0 }); // S/ 0 (Gratis)
+                if (currentBase === 'tecnopor') items.push({ n: "Base Tecnopor", p: 0 });
                 
                 if (isFilterIncluded) items.push({ n: filterData.name, p: filterData.price });
 
                 cart.forEach((c, i) => items.push({ n: c.name, p: c.price, idx: i }));
 
-                // Render Receipt
                 let html = '';
                 let total = 0;
                 items.forEach(item => {
@@ -961,16 +963,39 @@
                 totalPriceEl.innerText = "S/ " + total.toFixed(2);
             }
 
+            // --- WHATSAPP MEJORADO ---
             window.sendToWhatsapp = function() {
-                let msg = `*PEDIDO ALEXKIU FISH*\n------------------\n`;
-                // Simple parsing of receipt text for whatsapp
-                let rows = document.querySelectorAll('.receipt-row');
-                rows.forEach(r => {
-                    let name = r.querySelector('.r-name').innerText;
-                    let price = r.querySelector('.r-price').innerText.replace('[x]', '');
-                    msg += `${name}: ${price}\n`;
-                });
-                msg += `------------------\n*TOTAL: S/ ${currentTotal.toFixed(2)}*`;
+                let thickness = liveThickness.innerText;
+                let liters = liveLiters.innerText;
+                
+                let msg = `🐟 *HOLA ALEKIU FISH!* 🐟\nQuiero cotizar este proyecto personalizado:\n\n`;
+                msg += `──────────────\n`;
+                msg += `📐 *DIMENSIONES & ESTRUCTURA*\n`;
+                msg += `• Medidas: *${dimL}x${dimH}x${dimW} cm*\n`;
+                msg += `• Volumen: *${liters} Litros*\n`;
+                msg += `• Vidrio: *${thickness}* (Silicona Premium)\n`;
+                msg += `\n🎨 *ACABADOS SELECCIONADOS*\n`;
+                msg += `• Estilo: *${textFinish}*\n`;
+                msg += `• Tapa: *${textLid}*\n`;
+                msg += `• Base: *${textBase}*\n`;
+                
+                if(isFilterIncluded) {
+                    msg += `\n⚙️ *SISTEMA DE FILTRACIÓN*\n`;
+                    msg += `• Modelo: *${recTitle.innerText}*\n`;
+                }
+
+                if(cart.length > 0) {
+                    msg += `\n🛒 *ACCESORIOS ADICIONALES*\n`;
+                    cart.forEach(item => {
+                        msg += `• ${item.name}\n`;
+                    });
+                }
+
+                msg += `──────────────\n`;
+                msg += `💰 *INVERSIÓN TOTAL: S/ ${currentTotal.toFixed(2)}*\n`;
+                msg += `🚚 *Envío:* GRATIS a domicilio\n`;
+                msg += `\n✅ *Quedo a la espera de su confirmación.*`;
+
                 window.open(`https://wa.me/51908761978?text=${encodeURIComponent(msg)}`, '_blank');
             };
 
