@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ALEXKIU FISH | Configurador AI</title>
+    <title>ALEXKIU FISH | Configurador AI Mobile Ready</title>
     <style>
         :root {
             /* Paleta */
@@ -468,59 +468,109 @@
         @keyframes tail-wag { from { transform: rotateY(20deg); } to { transform: rotateY(-20deg); } }
         @keyframes fin-flutter { from { transform: translateZ(2px) rotateY(30deg); } to { transform: translateZ(2px) rotateY(60deg); } }
 
-        /* RESPONSIVE (MÓVIL MEJORADO) */
+        /* --- RESPONSIVE OPTIMIZADO (TABLET Y MÓVIL) --- */
         @media (max-width: 900px) {
-            body {
-                flex-direction: column;
-                height: 100dvh;
-                overflow: hidden;
-            }
-            .viewer-area {
-                width: 100%;
-                height: 40%; 
-                top: 0;
-            }
-            /* AJUSTE PARA QUE LA PECERA NO SE TAPE CON EL TITULO */
-            .scene { 
-                transform: translateY(40px) rotateX(-15deg) rotateY(35deg) !important;
-            }
+            
+            /* 1. OCULTAR ELEMENTOS DE PC */
+            .brand-story, .live-specs, .floating-header, .shop-drawer { display: none !important; }
 
+            /* 2. HUD SUPERIOR (RESUMEN) */
+            .mobile-hud {
+                display: flex; justify-content: space-between; align-items: center;
+                position: absolute; top: 0; left: 0; width: 100%; height: 70px;
+                background: rgba(2, 11, 20, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1);
+                z-index: 100; padding: 0 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            }
+            .hud-item { display: flex; flex-direction: column; align-items: flex-start; }
+            .hud-item.center { align-items: center; }
+            .hud-item:last-child { align-items: flex-end; }
+            
+            .hud-label { font-size: 0.6rem; color: #777; letter-spacing: 1px; }
+            .hud-val { font-size: 1.1rem; font-weight: 800; font-family: 'Courier New', monospace; color: #fff; }
+            .hud-val.accent { color: var(--accent-green); font-size: 1.4rem; text-shadow: 0 0 10px rgba(0,255,157,0.3); }
+
+            /* 3. BOTÓN ENGRANAJE (TRIGGER) */
+            .mobile-menu-trigger {
+                display: flex; align-items: center; justify-content: center;
+                position: fixed; bottom: 100px; right: 20px; /* Encima del botón Whatsapp */
+                width: 55px; height: 55px;
+                background: rgba(10, 20, 30, 0.9); border: 1px solid var(--accent-cyan);
+                border-radius: 50%; font-size: 1.8rem; color: #fff;
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+                z-index: 90; cursor: pointer; animation: pulse-gear 3s infinite;
+            }
+            @keyframes pulse-gear { 0% {box-shadow: 0 0 0 0 rgba(0,255,255,0.4);} 70% {box-shadow: 0 0 0 10px rgba(0,255,255,0);} 100% {box-shadow: 0 0 0 0 rgba(0,255,255,0);} }
+
+            /* 4. TRANSFORMACIÓN DEL PANEL LATERAL A "DRAWER" INFERIOR */
             .controls-sidebar {
-                position: relative;
-                width: 100%;
-                height: 60%; 
-                box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
-                z-index: 30;
-                display: flex; flex-direction: column;
+                position: fixed; bottom: 0; right: 0; left: 0; top: auto;
+                width: 100%; height: 85vh; /* Ocupa 85% de la pantalla */
+                background: #0b111a; border-left: none; border-top: 2px solid var(--accent-cyan);
+                border-radius: 20px 20px 0 0;
+                transform: translateY(110%); /* Oculto por defecto hacia abajo */
+                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 200; box-shadow: 0 -10px 50px rgba(0,0,0,0.8);
             }
-            .sidebar-scroll { flex: 1; padding-bottom: 20px; }
-            
-            .summary-sticky {
-                position: relative; margin-top: auto; padding: 12px; 
-                background: #020b14; z-index: 50;
-                /* Asegura que esté arriba de la tienda */
-                padding-bottom: 70px; 
+            .controls-sidebar.active {
+                transform: translateY(0); /* Se muestra al activar */
             }
 
-            .shop-drawer { width: 100%; height: 85vh; }
-            .floating-header { top: 15px; left: 15px; }
-            .brand-title { font-size: 1.8rem; } 
+            /* 5. HEADER PARA CERRAR EL PANEL */
+            .mobile-sidebar-header {
+                display: flex; align-items: center; justify-content: center;
+                padding: 15px; background: linear-gradient(to bottom, #1a253a, #0b111a);
+                color: #aaa; font-size: 0.8rem; letter-spacing: 2px; font-weight: bold;
+                cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05);
+                border-radius: 20px 20px 0 0;
+            }
+
+            /* AJUSTES VISUALIZADOR 3D */
+            .viewer-area { width: 100%; height: 60%; top: 40px; }
+            .scene { transform: scale(0.65) translateY(20px) rotateX(-15deg) rotateY(35deg) !important; }
             
-            .controls-deck { bottom: 20px; width: 95%; justify-content: space-between; gap: 5px; }
-            .control-module { width: 32%; padding: 5px 2px; }
-            .cm-display { font-size: 1.1rem; }
-            .cm-btn { padding: 4px 0; font-size: 1rem; }
+            /* REUBICAR CONTROLES DIMENSIONES */
+            .controls-deck { bottom: 140px; width: 95%; gap: 10px; z-index: 50; }
             
-            .brand-story, .live-specs { display: none; } 
-            .holo-decoration { width: 280px; height: 280px; }
-            .shop-tabs { display: flex; overflow-x: auto; gap: 10px; } 
-            .tab-block { min-width: 100px; }
+            .control-module { 
+                background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+                padding: 8px 4px; border-radius: 8px;
+            }
+            .cm-label { font-size: 0.6rem; }
+            .cm-display { font-size: 1rem; margin-bottom: 4px; }
+            .cm-btn { padding: 8px 0; font-size: 1.2rem; } /* Botones más grandes para el dedo */
+
+            /* Sticky Footer del Whatsapp (Siempre visible) */
+            .summary-sticky { 
+                position: fixed; bottom: 0; width: 100%; 
+                padding-bottom: 20px; /* Safe area para iPhone */
+                background: linear-gradient(0deg, #000 0%, rgba(0,0,0,0) 100%);
+                border-top: none;
+            }
         }
+
+        /* OCULTAR EN PC */
+        .mobile-menu-trigger, .mobile-sidebar-header, .mobile-hud { display: none; }
     </style>
 </head>
 <body>
 
     <div class="bg-animation"></div>
+    
+    <!-- BARRA DE DATOS MÓVIL (NUEVO) -->
+    <div class="mobile-hud">
+        <div class="hud-item">
+            <span class="hud-label">VOLUMEN</span>
+            <span class="hud-val"><span id="mobLiters">0</span> L</span>
+        </div>
+        <div class="hud-item center">
+            <span class="hud-label">TOTAL</span>
+            <span class="hud-val accent" id="mobPrice">S/ 0</span>
+        </div>
+        <div class="hud-item">
+            <span class="hud-label">VIDRIO</span>
+            <span class="hud-val" id="mobThick">--</span>
+        </div>
+    </div>
 
     <header class="floating-header">
         <div class="brand-title">ALEXKIU <span style="color:var(--accent-blue); -webkit-text-fill-color: initial;">FISH</span></div>
@@ -667,6 +717,11 @@
 
     <!-- SIDEBAR DERECHO -->
     <aside class="controls-sidebar">
+        <!-- ENCABEZADO PARA CERRAR EN MÓVIL -->
+        <div class="mobile-sidebar-header" onclick="toggleMobileMenu()">
+            <span>▼ MINIMIZAR PANEL</span>
+        </div>
+
         <div class="sidebar-scroll">
             
             <!-- SECCION: IA FILTER CORE -->
@@ -754,15 +809,13 @@
         </div>
     </aside>
 
-    <!-- TIENDA DRAWER -->
+    <!-- TIENDA DRAWER (Solo visible en Desktop ahora, o integrada si deseas) -->
     <div class="shop-drawer" id="shopDrawer">
         <div class="drawer-handle" id="drawerHandle">
             <span class="drawer-title">🛒 Agregar Accesorios</span>
             <span class="drawer-arrow">▲</span>
         </div>
         <div class="shop-body">
-            
-            <!-- NUEVO DISEÑO TABS: BLOQUES HUD -->
             <div class="shop-tabs">
                 <div class="tab-block active" onclick="loadCategory('food', this)">ALIMENTOS</div>
                 <div class="tab-block" onclick="loadCategory('filters', this)">FILTROS</div>
@@ -773,6 +826,11 @@
             <div class="products-grid" id="shopCarousel"></div>
         </div>
     </div>
+    
+    <!-- BOTÓN FLOTANTE MÓVIL (ENGRANAJE) -->
+    <button class="mobile-menu-trigger" onclick="toggleMobileMenu()">
+        ⚙️
+    </button>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -930,6 +988,12 @@
                 recTitle.innerText = filterData.name;
                 recDesc.innerText = filterData.desc;
                 filterPriceDisplay.innerText = "S/ " + filterData.price.toFixed(2);
+                
+                // ACTUALIZAR HUD MOVIL
+                if(document.getElementById('mobLiters')) {
+                    document.getElementById('mobLiters').innerText = Math.round(volume);
+                    document.getElementById('mobThick').innerText = thicknessText;
+                }
 
                 calculateReceipt(volume, thicknessText, filterData);
                 generateLife(volume);
@@ -974,6 +1038,11 @@
                 receiptBody.innerHTML = html;
                 currentTotal = total;
                 totalPriceEl.innerText = "S/ " + total.toFixed(2);
+                
+                // ACTUALIZAR PRECIO MOVIL
+                if(document.getElementById('mobPrice')) {
+                    document.getElementById('mobPrice').innerText = "S/ " + total.toFixed(2);
+                }
             }
 
             // --- WHATSAPP MEJORADO ---
@@ -1037,6 +1106,24 @@
                     }
                     wrapper.appendChild(model);
                     lifeContainer.appendChild(wrapper);
+                }
+            }
+            
+            // Función para abrir/cerrar el menú móvil
+            window.toggleMobileMenu = function() {
+                const sidebar = document.querySelector('.controls-sidebar');
+                const trigger = document.querySelector('.mobile-menu-trigger');
+                
+                // Toggle de la clase 'active'
+                sidebar.classList.toggle('active');
+                
+                // Efecto visual: Ocultar el botón de engranaje cuando el menú está abierto
+                if (sidebar.classList.contains('active')) {
+                    trigger.style.opacity = '0';
+                    trigger.style.pointerEvents = 'none';
+                } else {
+                    trigger.style.opacity = '1';
+                    trigger.style.pointerEvents = 'auto';
                 }
             }
 
