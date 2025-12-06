@@ -43,6 +43,16 @@
             display: flex;
         }
 
+        /* --- CLASES DE UTILIDAD --- */
+        .mobile-liters-badge, 
+        .mobile-brand-mini, 
+        .mobile-sticky, 
+        .mobile-menu-trigger, 
+        .mobile-sidebar-header, 
+        .mobile-shop-section { 
+            display: none; 
+        }
+
         /* --- FONDO ANIMADO --- */
         .bg-animation {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
@@ -88,7 +98,9 @@
             z-index: 1; cursor: grab; perspective: 1800px;
             display: flex; flex-direction: column; 
             align-items: center; justify-content: center;
-            touch-action: none;
+            touch-action: none; 
+            /* CENTRADO PERFECTO: Padding inferior para compensar header visualmente */
+            padding-bottom: 80px;
         }
         .viewer-area:active { cursor: grabbing; }
 
@@ -425,6 +437,7 @@
             position: absolute; background: var(--glass-bg); 
             border: var(--glass-thick) solid var(--glass-tank-border); 
             box-shadow: 0 0 40px rgba(0,255,255,0.05) inset; backface-visibility: visible; transition: all 0.4s ease; 
+            top: 0; left: 0; /* CRITICAL FIX: Ensure 0,0 origin for all faces */
         }
 
         .f-front { width: var(--tank-l); height: var(--tank-h); transform: translate(-50%, -50%) translateZ(calc(var(--tank-w) / 2)); pointer-events: none; }
@@ -434,45 +447,36 @@
         .f-bottom{ width: var(--tank-l); height: var(--tank-w); transform: translate(-50%, -50%) rotateX(-90deg) translateZ(calc(var(--tank-h) / 2)); background: rgba(0,0,0,0.95); border:1px solid #333; }
         
         .water { position: absolute; top: 0; left: 0; transform-style: preserve-3d; }
-        .w-face { position: absolute; background: var(--water-color); border: none; pointer-events: none; }
+        .w-face { position: absolute; background: var(--water-color); border: none; pointer-events: none; top:0; left:0; }
         .w-front { width: calc(var(--tank-l) - 4px); height: calc(var(--tank-h) * 0.85); transform: translate(-50%, -50%) translateZ(calc(var(--tank-w) / 2 - 2px)) translateY(calc(var(--tank-h) * 0.075)); }
         .w-back  { width: calc(var(--tank-l) - 4px); height: calc(var(--tank-h) * 0.85); transform: translate(-50%, -50%) rotateY(180deg) translateZ(calc(var(--tank-w) / 2 - 2px)) translateY(calc(var(--tank-h) * 0.075)); }
         .w-right { width: calc(var(--tank-w) - 4px); height: calc(var(--tank-h) * 0.85); transform: translate(-50%, -50%) rotateY(90deg) translateZ(calc(var(--tank-l) / 2 - 2px)) translateY(calc(var(--tank-h) * 0.075)); }
         .w-left  { width: calc(var(--tank-w) - 4px); height: calc(var(--tank-h) * 0.85); transform: translate(-50%, -50%) rotateY(-90deg) translateZ(calc(var(--tank-l) / 2 - 2px)) translateY(calc(var(--tank-h) * 0.075)); }
         .w-top   { width: calc(var(--tank-l) - 4px); height: calc(var(--tank-w) - 4px); transform: translate(-50%, -50%) rotateX(90deg) translateZ(calc((var(--tank-h) * 0.85) / 2 - (var(--tank-h) * 0.075))); background: rgba(0,255,255,0.25); box-shadow: 0 0 50px var(--accent-cyan); }
 
-        .wood-texture { background-color: #4e342e; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 12px); border: 1px solid #3e2723; }
+        .wood-texture { 
+            background-color: #4e342e; 
+            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 12px); 
+            /* border removed for seamless join */
+        }
         .wood-group { display: none; transform-style: preserve-3d; } .wood-group.visible { display: block; }
-        .wood-face { position: absolute; transition: all 0.4s ease; }
+        .wood-face { position: absolute; transition: all 0.4s ease; top:0; left:0; /* CRITICAL: Ensure centering works */ }
+        
         .wl-front { width: var(--tank-l); height: var(--wood-h); transform: translate(-50%, -50%) translateZ(calc(var(--tank-w) / 2)) translateY(calc( (var(--tank-h) / 2 + var(--wood-h) / 2) * -1 )); }
         .wl-back  { width: var(--tank-l); height: var(--wood-h); transform: translate(-50%, -50%) rotateY(180deg) translateZ(calc(var(--tank-w) / 2)) translateY(calc( (var(--tank-h) / 2 + var(--wood-h) / 2) * -1 )); }
         .wl-right { width: var(--tank-w); height: var(--wood-h); transform: translate(-50%, -50%) rotateY(90deg) translateZ(calc(var(--tank-l) / 2)) translateY(calc( (var(--tank-h) / 2 + var(--wood-h) / 2) * -1 )); }
         .wl-left  { width: var(--tank-w); height: var(--wood-h); transform: translate(-50%, -50%) rotateY(-90deg) translateZ(calc(var(--tank-l) / 2)) translateY(calc( (var(--tank-h) / 2 + var(--wood-h) / 2) * -1 )); }
         .wl-top   { width: var(--tank-l); height: var(--tank-w); transform: translate(-50%, -50%) rotateX(90deg) translateZ(calc( var(--tank-h) / 2 + var(--wood-h) )); }
 
-        .wb-front { width: var(--tank-l); height: var(--wood-h); transform: translate(-50%, -50%) translateZ(calc(var(--tank-w) / 2)) translateY(calc( var(--tank-h) / 2 + var(--wood-h) / 2 )); }
-        .wb-back  { width: var(--tank-l); height: var(--wood-h); transform: translate(-50%, -50%) rotateY(180deg) translateZ(calc(var(--tank-w) / 2)) translateY(calc( var(--tank-h) / 2 + var(--wood-h) / 2 )); }
-        .wb-right { width: var(--tank-w); height: var(--wood-h); transform: translate(-50%, -50%) rotateY(90deg) translateZ(calc(var(--tank-l) / 2)) translateY(calc( var(--tank-h) / 2 + var(--wood-h) / 2 )); }
-        .wb-left  { width: var(--tank-w); height: var(--wood-h); transform: translate(-50%, -50%) rotateY(-90deg) translateZ(calc(var(--tank-l) / 2)) translateY(calc( var(--tank-h) / 2 + var(--wood-h) / 2 )); }
-        .wb-bottom{ width: var(--tank-l); height: var(--tank-w); transform: translate(-50%, -50%) rotateX(90deg) translateZ(calc( var(--tank-h) / 2 + var(--wood-h) )); }
-        
-        /* Base Tecnopor */
-        .tecnopor-face { 
-            position: absolute; background-color: #2b2b2b; 
-            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 3px 3px; border: 1px solid #444; 
-        }
-        .tecnopor-group { display: none; transform-style: preserve-3d; } .tecnopor-group.visible { display: block; }
-        
-        /* AJUSTE POSICIÓN TECNOPOR */
-        .wt-front { width: var(--tank-l); height: var(--tecnopor-h); transform: translate(-50%, -50%) translateZ(calc(var(--tank-w) / 2)) translateY(calc( var(--tank-h) / 2 + var(--tecnopor-h) / 2)); }
-        .wt-back  { width: var(--tank-l); height: var(--tecnopor-h); transform: translate(-50%, -50%) rotateY(180deg) translateZ(calc(var(--tank-w) / 2)) translateY(calc( var(--tank-h) / 2 + var(--tecnopor-h) / 2)); }
-        .wt-right { width: var(--tank-w); height: var(--tecnopor-h); transform: translate(-50%, -50%) rotateY(90deg) translateZ(calc(var(--tank-l) / 2)) translateY(calc( var(--tank-h) / 2 + var(--tecnopor-h) / 2)); }
-        .wt-left  { width: var(--tank-w); height: var(--tecnopor-h); transform: translate(-50%, -50%) rotateY(-90deg) translateZ(calc(var(--tank-l) / 2)) translateY(calc( var(--tank-h) / 2 + var(--tecnopor-h) / 2)); }
-        .wt-bottom{ width: var(--tank-l); height: var(--tank-w); transform: translate(-50%, -50%) rotateX(-90deg) translateZ(calc( var(--tank-h) / 2 + var(--tecnopor-h) )); }
+        /* BASE PERIMETRAL: Solo Lados, sin fondo (Hollow) */
+        .wb-front { width: calc(var(--tank-l) + 2px); height: calc(var(--wood-h) + 1px); transform: translate(-50%, -50%) translateZ(calc(var(--tank-w) / 2)) translateY(calc( var(--tank-h) / 2 + (var(--wood-h) + 1px) / 2 )); }
+        .wb-back  { width: calc(var(--tank-l) + 2px); height: calc(var(--wood-h) + 1px); transform: translate(-50%, -50%) rotateY(180deg) translateZ(calc(var(--tank-w) / 2)) translateY(calc( var(--tank-h) / 2 + (var(--wood-h) + 1px) / 2 )); }
+        .wb-right { width: var(--tank-w); height: calc(var(--wood-h) + 1px); transform: translate(-50%, -50%) rotateY(90deg) translateZ(calc(var(--tank-l) / 2)) translateY(calc( var(--tank-h) / 2 + (var(--wood-h) + 1px) / 2 )); }
+        .wb-left  { width: var(--tank-w); height: calc(var(--wood-h) + 1px); transform: translate(-50%, -50%) rotateY(-90deg) translateZ(calc(var(--tank-l) / 2)) translateY(calc( var(--tank-h) / 2 + (var(--wood-h) + 1px) / 2 )); }
+        /* .wb-bottom REMOVIDA */
 
         .glass-group { display: none; transform-style: preserve-3d; } .glass-group.visible { display: block; }
-        .glass-face { position: absolute; background: rgba(10, 10, 10, 0.7); border: 1px solid rgba(255,255,255,0.15); transition: all 0.4s ease; }
+        .glass-face { position: absolute; background: rgba(10, 10, 10, 0.7); border: 1px solid rgba(255,255,255,0.15); transition: all 0.4s ease; top:0; left:0; }
         .gl-front { width: var(--tank-l); height: var(--glass-lid-h); transform: translate(-50%, -50%) translateZ(calc(var(--tank-w) / 2)) translateY(calc( (var(--tank-h) / 2 + var(--glass-lid-h) / 2) * -1 )); }
         .gl-back  { width: var(--tank-l); height: var(--glass-lid-h); transform: translate(-50%, -50%) rotateY(180deg) translateZ(calc(var(--tank-w) / 2)) translateY(calc( (var(--tank-h) / 2 + var(--glass-lid-h) / 2) * -1 )); }
         .gl-right { width: var(--tank-w); height: var(--glass-lid-h); transform: translate(-50%, -50%) rotateY(90deg) translateZ(calc(var(--tank-l) / 2)) translateY(calc( (var(--tank-h) / 2 + var(--glass-lid-h) / 2) * -1 )); }
@@ -494,10 +498,10 @@
         .gold .pectoral.left { transform: translateZ(2px) rotateY(45deg); }
         .gold .pectoral.right { transform: translateZ(-2px) rotateY(-45deg); }
         @keyframes swim-path {
-            0%   { transform: translateX(calc(var(--tank-l) * -0.30)) translateY(calc(var(--tank-h) * var(--ratio-y))) translateZ(calc(var(--tank-w) * var(--ratio-z))) rotateY(0deg); }
-            49%  { transform: translateX(calc(var(--tank-l) * 0.30))  translateY(calc(var(--tank-h) * var(--ratio-y))) translateZ(calc(var(--tank-w) * var(--ratio-z))) rotateY(0deg); }
-            50%  { transform: translateX(calc(var(--tank-l) * 0.30))  translateY(calc(var(--tank-h) * var(--ratio-y))) translateZ(calc(var(--tank-w) * var(--ratio-z))) rotateY(180deg); }
-            99%  { transform: translateX(calc(var(--tank-l) * -0.30)) translateY(calc(var(--tank-h) * var(--ratio-y))) translateZ(calc(var(--tank-w) * var(--ratio-z))) rotateY(180deg); }
+            0%    { transform: translateX(calc(var(--tank-l) * -0.30)) translateY(calc(var(--tank-h) * var(--ratio-y))) translateZ(calc(var(--tank-w) * var(--ratio-z))) rotateY(0deg); }
+            49%   { transform: translateX(calc(var(--tank-l) * 0.30))  translateY(calc(var(--tank-h) * var(--ratio-y))) translateZ(calc(var(--tank-w) * var(--ratio-z))) rotateY(0deg); }
+            50%   { transform: translateX(calc(var(--tank-l) * 0.30))  translateY(calc(var(--tank-h) * var(--ratio-y))) translateZ(calc(var(--tank-w) * var(--ratio-z))) rotateY(180deg); }
+            99%   { transform: translateX(calc(var(--tank-l) * -0.30)) translateY(calc(var(--tank-h) * var(--ratio-y))) translateZ(calc(var(--tank-w) * var(--ratio-z))) rotateY(180deg); }
             100% { transform: translateX(calc(var(--tank-l) * -0.30)) translateY(calc(var(--tank-h) * var(--ratio-y))) translateZ(calc(var(--tank-w) * var(--ratio-z))) rotateY(0deg); }
         }
         @keyframes float-y { 0%, 100% { margin-top: -5px; } 50% { margin-top: 5px; } }
@@ -528,37 +532,42 @@
 
             /* 3. AJUSTE DE PECERA (CENTRO DE ATENCIÓN) */
             .viewer-area {
-                width: 100%; height: 75%; 
+                width: 100%; height: 100%; /* Ocupa todo el alto */
                 top: 0; display: flex; align-items: center; justify-content: center;
+                /* MODIFICACIÓN: Reducido padding para centrar mejor visualmente */
+                padding-bottom: 120px; 
                 touch-action: none; /* CRITICO PARA MOVER LA PECERA */
             }
             .scene { 
+                /* Escala ligeramente reducida para asegurar que no se corte en pantallas estrechas */
                 transform: scale(0.65) rotateX(-10deg) rotateY(35deg) !important; 
             }
 
-            /* 4. CONTROLES DIMENSIONES (DISCRETOS AL FONDO) */
+            /* 4. CONTROLES DIMENSIONES (UBICADOS CERCA DE COTIZACION) */
             .controls-deck { 
-                bottom: 120px; /* Encima del precio */
-                width: 90%; gap: 8px; z-index: 40;
+                bottom: 140px; /* Justo encima del precio */
+                width: 95%; gap: 5px; z-index: 40;
                 justify-content: center;
+                background: rgba(0,0,0,0.5); /* Fondo para mejorar legibilidad */
+                padding: 10px; border-radius: 12px;
+                backdrop-filter: blur(5px);
             }
             .control-module { 
-                padding: 5px; background: rgba(0,0,0,0.3); /* Más transparente */
-                border: 1px solid rgba(255,255,255,0.05);
-                backdrop-filter: blur(4px); box-shadow: none;
+                padding: 5px; background: transparent; 
+                border: none; box-shadow: none;
                 flex: 1;
             }
             .cm-display { font-size: 1rem; margin-bottom: 2px; }
-            .cm-label { display: none; } /* Ocultar etiquetas para limpiar visualmente */
-            .cm-btn { padding: 10px 0; font-size: 1.2rem; background: rgba(255,255,255,0.05); }
+            .cm-label { display: block; font-size: 0.6rem; margin-bottom: 2px; } /* Mostrar etiquetas pequeñas */
+            .cm-btn { padding: 12px 0; font-size: 1.2rem; background: rgba(255,255,255,0.1); }
 
             /* 5. FOOTER FIJO (PRECIO + CTA) */
             .summary-sticky.mobile-sticky {
                 display: flex; flex-direction: column; gap: 8px;
                 position: fixed; bottom: 0; width: 100%; 
                 padding: 15px 20px 25px 20px; /* Extra padding bottom for iOS home bar */
-                background: linear-gradient(to top, #020b14 80%, rgba(2,11,20,0) 100%);
-                border-top: none; z-index: 100;
+                background: linear-gradient(to top, #020b14 90%, rgba(2,11,20,0) 100%);
+                border-top: 1px solid rgba(255,255,255,0.1); z-index: 100;
             }
             
             .mobile-price-display {
@@ -586,10 +595,25 @@
             .controls-sidebar.active { transform: translateY(0); }
             
             .mobile-menu-trigger {
-                bottom: 200px; right: 20px; /* Bien arriba para no estorbar controles */
+                display: flex !important; /* Forzar visibilidad */
+                align-items: center; justify-content: center;
+                bottom: auto; top: 20px; right: 20px; /* Position top right */
                 width: 50px; height: 50px; font-size: 1.5rem;
                 background: rgba(10, 20, 30, 0.8); border: 1px solid var(--accent-cyan);
                 box-shadow: 0 0 15px rgba(0,255,255,0.3);
+                z-index: 250; /* Encima de todo */
+                position: fixed;
+                border-radius: 50%;
+                color: #fff;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            /* Change position when sidebar is active */
+            .controls-sidebar.active .mobile-menu-trigger {
+                top: 20px; right: 20px;
+                background: rgba(255, 50, 50, 0.8);
+                border-color: #ff3232;
             }
             
             .mobile-sidebar-header {
@@ -683,8 +707,16 @@
                 <div class="face f-front"></div><div class="face f-back"></div><div class="face f-right"></div><div class="face f-left"></div><div class="face f-bottom"></div>
                 <div class="wood-group" id="woodLidGroup"><div class="wood-face wood-texture wl-front"></div><div class="wood-face wood-texture wl-back"></div><div class="wood-face wood-texture wl-right"></div><div class="wood-face wood-texture wl-left"></div><div class="wood-face wood-texture wl-top"></div></div>
                 <div class="glass-group" id="glassLidGroup"><div class="glass-face gl-front"></div><div class="glass-face gl-back"></div><div class="glass-face gl-right"></div><div class="glass-face gl-left"></div><div class="glass-face gl-top"></div></div>
-                <div class="wood-group" id="woodBaseGroup"><div class="wood-face wood-texture wb-front"></div><div class="wood-face wood-texture wb-back"></div><div class="wood-face wood-texture wb-right"></div><div class="wood-face wood-texture wb-left"></div><div class="wood-face wood-texture wb-bottom"></div></div>
-                <div class="tecnopor-group" id="tecnoporBaseGroup"><div class="tecnopor-face wt-front"></div><div class="tecnopor-face wt-back"></div><div class="tecnopor-face wt-right"></div><div class="tecnopor-face wt-left"></div><div class="tecnopor-face wt-bottom"></div></div>
+                
+                <!-- BASE DE MADERA (NUEVO: SOLO PERIMETRO) -->
+                <div class="wood-group" id="woodBaseGroup">
+                    <div class="wood-face wood-texture wb-front"></div>
+                    <div class="wood-face wood-texture wb-back"></div>
+                    <div class="wood-face wood-texture wb-right"></div>
+                    <div class="wood-face wood-texture wb-left"></div>
+                    <!-- wb-bottom ELIMINADA -->
+                </div>
+
                 <div class="aquarium-content" id="lifeContainer"></div>
                 <div class="water"><div class="w-face w-front"></div><div class="w-face w-back"></div><div class="w-face w-right"></div><div class="w-face w-left"></div><div class="w-face w-top"></div></div>
             </div>
@@ -745,10 +777,11 @@
                         <div class="toggle-btn" onclick="setLid('glass', 'Tapa Vidrio')">Vidrio</div>
                         <div class="toggle-btn" onclick="setLid('wood', 'Tapa Madera')">Madera</div>
                     </div>
+                    
+                    <!-- NUEVA SECCIÓN BASE -->
                     <div style="font-size:0.8rem; color:#888; margin-bottom:5px;">BASE</div>
                     <div class="btn-group" id="base-options">
-                        <div class="toggle-btn" onclick="setBase('none', 'Sin Base')">Sin Base</div>
-                        <div class="toggle-btn active" onclick="setBase('tecnopor', 'Base Tecnopor')">Tecnopor</div>
+                        <div class="toggle-btn active" onclick="setBase('none', 'Sin Base')">Sin Base</div>
                         <div class="toggle-btn" onclick="setBase('wood', 'Base Madera')">Madera</div>
                     </div>
                 </div>
@@ -760,6 +793,10 @@
                 <div class="accordion-content">
                     <div class="ai-card">
                         <div class="ai-header"><span class="ai-badge">AI CORE</span><div class="ai-icon">⚙️</div></div>
+                        <!-- Added Text -->
+                        <div style="font-size:0.7rem; color:#94a3b8; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.5px;">
+                            Recomendación IA para <span id="techLitersRef" style="color:var(--accent-cyan); font-weight:bold;">0</span> Litros:
+                        </div>
                         <div class="ai-result"><h4 id="recTitle">Calculando...</h4><div class="ai-price" id="filterPriceDisplay">S/ 0</div></div>
                         <button class="btn-cta" style="background:transparent; border:1px solid var(--accent-cyan); color:var(--accent-cyan); padding:5px; margin-top:10px; font-size:0.7rem;" id="btnFilterToggle" onclick="toggleFilter()">AGREGAR</button>
                     </div>
@@ -773,8 +810,8 @@
                     <div class="shop-tabs">
                         <div class="tab-block active" onclick="loadCategory('food', this)">ALIMENTOS</div>
                         <div class="tab-block" onclick="loadCategory('filters', this)">FILTROS</div>
-                        <div class="tab-block" onclick="loadCategory('decor', this)">DECO</div>
-                        <div class="tab-block" onclick="loadCategory('substrates', this)">SUSTRATO</div>
+                        <div class="tab-block" onclick="loadCategory('decor', this)">DECORACIÓN</div>
+                        <div class="tab-block" onclick="loadCategory('substrates', this)">SUSTRATOS</div>
                     </div>
                     <div class="products-grid" id="mobileShopCarousel"></div>
                 </div>
@@ -840,12 +877,12 @@
             let currentScale = 6;
             let currentFinish = 'rimless';
             let currentLid = 'none';
-            let currentBase = 'tecnopor'; 
-            const apiKey = ""; 
+            let currentBase = 'none'; // Default sin base
+            const apiKey = "AIzaSyDyv98QE3Kx6kcSHj8xbUbcW0bD9M9_Dfo"; 
             
             let textFinish = "Sin Marco";
             let textLid = "Sin Tapa";
-            let textBase = "Base Tecnopor";
+            let textBase = "Sin Base";
 
             let cart = [];
             let currentTotal = 0;
@@ -866,7 +903,7 @@
             
             const tankEl = document.getElementById('tank');
             const woodLidGroup = document.getElementById('woodLidGroup'), glassLidGroup = document.getElementById('glassLidGroup');
-            const woodBaseGroup = document.getElementById('woodBaseGroup'), tecnoporBaseGroup = document.getElementById('tecnoporBaseGroup');
+            const woodBaseGroup = document.getElementById('woodBaseGroup');
             
             const recTitle = document.getElementById('recTitle'), filterPriceDisplay = document.getElementById('filterPriceDisplay'), btnFilterToggle = document.getElementById('btnFilterToggle');
             const receiptBody = document.getElementById('receiptBody'), totalPriceEl = document.getElementById('totalPrice');
@@ -947,6 +984,10 @@
                 const elMobBadge = document.getElementById('mobLitersBadge');
                 if(elMobBadge) elMobBadge.innerText = Math.round(volume);
 
+                // --- NEW: Update Tech Analysis Liters Ref ---
+                const elTechLitersRef = document.getElementById('techLitersRef');
+                if(elTechLitersRef) elTechLitersRef.innerText = Math.round(volume);
+
                 if(liveWeight) liveWeight.innerText = Math.round(volume + (volume * 0.1));
 
                 let thickPx = 2; let thicknessText = "4mm";
@@ -963,13 +1004,11 @@
 
                 if(woodLidGroup) woodLidGroup.classList.remove('visible'); 
                 if(glassLidGroup) glassLidGroup.classList.remove('visible');
-                if(woodBaseGroup) woodBaseGroup.classList.remove('visible'); 
-                if(tecnoporBaseGroup) tecnoporBaseGroup.classList.remove('visible');
+                if(woodBaseGroup) woodBaseGroup.classList.remove('visible');
 
                 if(currentLid === 'wood' && woodLidGroup) woodLidGroup.classList.add('visible');
                 if(currentLid === 'glass' && glassLidGroup) glassLidGroup.classList.add('visible');
                 if(currentBase === 'wood' && woodBaseGroup) woodBaseGroup.classList.add('visible');
-                if(currentBase === 'tecnopor' && tecnoporBaseGroup) tecnoporBaseGroup.classList.add('visible');
 
                 if(tankEl) tankEl.classList.toggle('metal-mode', currentFinish === 'metal');
 
@@ -997,7 +1036,7 @@
                 if (currentLid === 'wood') items.push({ n: "Tapa Madera", p: 115 });
                 if (currentLid === 'glass') items.push({ n: "Tapa Vidrio", p: getGlassLidPrice(liters) });
                 if (currentBase === 'wood') items.push({ n: "Base Madera", p: 115 });
-                if (currentBase === 'tecnopor') items.push({ n: "Base Tecnopor", p: 0 });
+                
                 if (isFilterIncluded) items.push({ n: filterData.name, p: filterData.price });
                 cart.forEach((c, i) => items.push({ n: c.name, p: c.price, idx: i }));
 
@@ -1030,14 +1069,6 @@
                     content.classList.remove('open');
                     content.style.maxHeight = null;
                 } else {
-                    // Close others (optional - accordion behavior)
-                    /*
-                    document.querySelectorAll('.accordion-content.open').forEach(el => {
-                        el.classList.remove('open');
-                        el.style.maxHeight = null;
-                        el.previousElementSibling.classList.remove('open');
-                    });
-                    */
                     content.classList.add('open');
                     content.style.maxHeight = content.scrollHeight + "px";
                 }
@@ -1052,50 +1083,47 @@
                 }
             }
 
-            // --- FUNCIÓN AI EXPERT (Tu versión validada) ---
+            // --- PEGA ESTO REEMPLAZANDO LA FUNCIÓN askGeminiExpert ANTERIOR ---
             window.askGeminiExpert = async function() {
                 const responseArea = document.getElementById('aiResponse');
                 if(!responseArea) return;
                 
-                // 1. OBTENER DATOS REALES DE LA PECERA
+                // 1. OBTENER DATOS
                 const elLiters = document.getElementById('liveLiters');
                 const liters = elLiters ? elLiters.innerText : "0";
                 
-                // 2. MOSTRAR CARGANDO
+                // 2. PREPARAR INTERFAZ (RESPETANDO EL BOTÓN DE CERRAR)
                 responseArea.style.display = 'block';
-                
-                // Mantener boton cerrar si es posible o re-agregarlo
                 let closeBtnHtml = '<button class="ai-close-btn" onclick="closeAiResponse()">▼</button>';
-                responseArea.innerHTML = closeBtnHtml + '<div class="loading-spinner"></div> Consultando al Experto...';
+                responseArea.innerHTML = closeBtnHtml + '<div class="loading-spinner"></div> <span style="font-size:0.9rem">Analizando tu acuario...</span>';
                 
-                // Ajustar altura acordeón si es necesario (para que se vea el loading)
+                // FORZAR APERTURA DEL ACORDEÓN (Para que se vea la respuesta al cargar)
                 const parentContent = responseArea.closest('.accordion-content');
                 if(parentContent) {
-                     parentContent.style.maxHeight = parentContent.scrollHeight + 500 + "px"; 
+                     parentContent.classList.add('open');
+                     parentContent.style.maxHeight = "1000px"; // Altura temporal para carga
                 }
                 
-                // 3. DEFINIR LA PERSONALIDAD (SYSTEM INSTRUCTION)
+                // 3. INSTRUCCIONES DEL EXPERTO (Tu "Consultor")
                 const expertSystemInstruction = `
                 Eres el Consultor Biológico Senior de ALEXKIU FISH.
-                Tu objetivo: Asesorar sobre una pecera de ${liters} litros (${dimL}x${dimH}x${dimW}cm).
+                Tu misión: Asesorar sobre una pecera de ${liters} litros (${dimL}x${dimH}x${dimW}cm).
                 Reglas:
-                1. Sé breve y directo (usa listas).
-                2. NO recomiendes sobrepoblación.
-                3. Recomienda peces compatibles con ${liters}L.
-                4. Sugiere plantas y temperatura ideal.
-                5. Usa emojis para hacerlo visual.
+                1. Sé MUY breve y usa listas (bullets).
+                2. NO recomiendes sobrepoblación (Regla de oro).
+                3. Recomienda peces específicos para ${liters}L.
+                4. Sugiere plantas low-tech o high-tech según corresponda.
+                5. Usa emojis (🐟, 🌿, 🌡️) para que se vea moderno.
                 `;
 
-                // 4. LA PREGUNTA DEL USUARIO (PROMPT)
-                const userPrompt = `Recomiéndame una configuración completa (peces, plantas, equipo) para esta pecera.`;
+                const userPrompt = `Dame una configuración recomendada completa (Peces, Plantas, Temperatura) para este litraje.`;
 
                 try {
-                    // Usamos el modelo gemini-2.5-flash-preview-09-2025 - Safer for general API keys
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    // USAMOS EL MODELO ESTÁNDAR (Más estable para webs públicas)
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
                         method: 'POST', 
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ 
-                            // AQUI ESTA EL TRUCO: Enviamos las instrucciones + la pregunta
                             system_instruction: {
                                 parts: [{ text: expertSystemInstruction }]
                             },
@@ -1105,27 +1133,28 @@
                         }) 
                     });
                     
-                    if (!response.ok) throw new Error('Error de API: Verifica tu clave o conexión.');
+                    if (!response.ok) throw new Error('Error API');
 
                     const data = await response.json();
                     const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "No pude generar una respuesta.";
                     
-                    // Formatear negritas y saltos de línea para que se vea bonito en la web
+                    // FORMATEO BONITO (Negritas azules y saltos de línea)
                     const formattedText = aiText
                         .replace(/\n/g, '<br>')
                         .replace(/\*\*(.*?)\*\*/g, '<b style="color:var(--accent-cyan)">$1</b>')
-                        .replace(/\*/g, '•'); // Cambia asteriscos por viñetas
+                        .replace(/\*/g, '•');
                     
-                    responseArea.innerHTML = closeBtnHtml + `<div id="aiResponseText">${formattedText}</div>`;
+                    // INYECTAMOS LA RESPUESTA (MANTENIENDO EL BOTÓN DE CERRAR)
+                    responseArea.innerHTML = closeBtnHtml + `<div id="aiResponseText" style="margin-top:15px;">${formattedText}</div>`;
                     
-                    // Reajustar altura acordeón después de cargar texto completo
+                    // REAJUSTAR ALTURA DEL ACORDEÓN AL TERMINAR (Para que encaje perfecto)
                     if(parentContent) {
                          parentContent.style.maxHeight = parentContent.scrollHeight + "px";
                     }
                         
                 } catch (error) {
                     console.error(error);
-                    responseArea.innerHTML = closeBtnHtml + '⚠️ <span style="color:#ff4444">Error:</span> Hubo un problema de conexión.';
+                    responseArea.innerHTML = closeBtnHtml + '<div style="margin-top:10px;">⚠️ <span style="color:#ff4444">Error:</span> Verifica tu API Key o conexión.</div>';
                 }
             };
 
@@ -1133,10 +1162,28 @@
             window.sendToWhatsapp = function() {
                 let thickness = liveThickness ? liveThickness.innerText : "Standard";
                 let liters = liveLiters ? liveLiters.innerText : "0";
-                let msg = `🐟 *HOLA ALEXKIU FISH!* 🐟\nQuiero cotizar:\n📐 *${dimL}x${dimH}x${dimW} cm* (${liters}L) - Vidrio ${thickness}\n🎨 *${textFinish}* / Tapa: ${textLid} / Base: ${textBase}`;
-                if(isFilterIncluded && recTitle) msg += `\n⚙️ Filtro: ${recTitle.innerText}`;
-                cart.forEach(item => { msg += `\n🛒 ${item.name}`; });
-                msg += `\n💰 *TOTAL: S/ ${currentTotal.toFixed(2)}*`;
+                
+                let msg = `🚀 *NUEVA COTIZACIÓN PREMIUM* 🚀\n`;
+                msg += `Hola ALEXKIU, he diseñado mi acuario en el configurador 3D:\n\n`;
+                msg += `💎 *ARQUITECTURA*\n`;
+                msg += `▪️ Dimensiones: *${dimL}x${dimH}x${dimW} cm*\n`;
+                msg += `▪️ Capacidad: *${liters} Litros* (${thickness})\n`;
+                msg += `▪️ Estilo: *${textFinish}*\n`;
+                msg += `▪️ Base: *${textBase}*\n`;
+                msg += `▪️ Tapa: *${textLid}*\n\n`;
+
+                if(isFilterIncluded || cart.length > 0) {
+                    msg += `⚙️ *EQUIPAMIENTO & DECO*\n`;
+                    if(isFilterIncluded && recTitle) msg += `▫️ Filtro: ${recTitle.innerText}\n`;
+                    cart.forEach(item => { msg += `▫️ ${item.name}\n`; });
+                    msg += `\n`;
+                }
+
+                msg += `💰 *INVERSIÓN TOTAL: S/ ${currentTotal.toFixed(2)}*\n`;
+                msg += `----------------------------------\n`;
+                msg += `📍 *ID Cotización:* #${document.getElementById('rndId').innerText}\n`;
+                msg += `Quedo atento para confirmar el pedido. 🤝`;
+
                 window.open(`https://wa.me/51908761978?text=${encodeURIComponent(msg)}`, '_blank');
             };
 
@@ -1180,16 +1227,19 @@
                 }
 
                 if(sidebar) sidebar.classList.toggle('active');
+                
+                // CAMBIO: Cambiar el icono del botón en vez de ocultarlo
                 if(trigger && sidebar) {
                     if (sidebar.classList.contains('active')) {
-                        trigger.style.opacity = '0'; trigger.style.pointerEvents = 'none';
+                        trigger.innerText = '✖'; // Cambiar a X
                     } else {
-                        trigger.style.opacity = '1'; trigger.style.pointerEvents = 'auto';
+                        trigger.innerText = '⚙️'; // Volver a engranaje
                     }
                 }
             }
 
             function determineScale() {
+                // Adjust scale calculation based on viewport
                 currentScale = window.innerWidth < 900 ? 2.5 : 5.5;
                 updateTank();
             }
@@ -1274,9 +1324,14 @@
                 });
             }
 
-            // 3D Rotation
+            // 3D Rotation & PINCH ZOOM
             const viewer = document.getElementById('viewer'), scene = document.getElementById('scene');
             let isDragging = false, startX, startY, rotX = -15, rotY = 35;
+            
+            // Pinch vars
+            let initialPinchDist = 0;
+            let initialScaleOnPinch = 0;
+
             const startDrag = (x, y) => { isDragging = true; startX = x; startY = y; viewer.style.cursor = 'grabbing'; };
             const stopDrag = () => { isDragging = false; viewer.style.cursor = 'grab'; };
             const moveDrag = (x, y) => {
@@ -1289,12 +1344,71 @@
             };
             
             if(viewer) {
+                // MOUSE EVENTS (PC)
                 viewer.addEventListener('mousedown', e => startDrag(e.clientX, e.clientY));
                 window.addEventListener('mouseup', stopDrag);
                 window.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
-                viewer.addEventListener('touchstart', e => startDrag(e.touches[0].clientX, e.touches[0].clientY), {passive: false});
-                window.addEventListener('touchend', stopDrag);
-                viewer.addEventListener('touchmove', e => { if(isDragging) e.preventDefault(); moveDrag(e.touches[0].clientX, e.touches[0].clientY); }, {passive: false});
+                
+                // ZOOM RUEDA MOUSE (NUEVO)
+                viewer.addEventListener('wheel', e => {
+                    if(e.ctrlKey) return; // Permitir zoom normal del navegador si usa Ctrl
+                    e.preventDefault();
+                    const zoomIntensity = 0.5;
+                    const direction = e.deltaY > 0 ? -1 : 1; // Abajo (zoom out), Arriba (zoom in)
+                    let newScale = currentScale + (direction * zoomIntensity);
+                    newScale = Math.max(1.5, Math.min(10.0, newScale)); // Límites
+                    currentScale = newScale;
+                    updateTank();
+                }, {passive: false});
+
+                // TOUCH EVENTS (MOBILE - PINCH SUPPORT)
+                viewer.addEventListener('touchstart', e => {
+                    if (e.touches.length === 2) {
+                        // Pinch start
+                        isDragging = false; // Disable rotation during pinch
+                        initialPinchDist = Math.hypot(
+                            e.touches[0].pageX - e.touches[1].pageX,
+                            e.touches[0].pageY - e.touches[1].pageY
+                        );
+                        initialScaleOnPinch = currentScale;
+                    } else if (e.touches.length === 1) {
+                        // Drag/Rotate start
+                        startDrag(e.touches[0].clientX, e.touches[0].clientY);
+                    }
+                }, {passive: false});
+
+                window.addEventListener('touchend', e => {
+                    if (e.touches.length < 2) {
+                        initialPinchDist = 0; // Reset pinch
+                    }
+                    if (e.touches.length === 0) {
+                        stopDrag();
+                    }
+                });
+
+                viewer.addEventListener('touchmove', e => {
+                    if (e.touches.length === 2) {
+                        // Pinch Zooming
+                        e.preventDefault();
+                        const dist = Math.hypot(
+                            e.touches[0].pageX - e.touches[1].pageX,
+                            e.touches[0].pageY - e.touches[1].pageY
+                        );
+                        if (initialPinchDist > 0) {
+                            const zoomFactor = dist / initialPinchDist;
+                            // Limit scale range to avoid bugs
+                            let newScale = initialScaleOnPinch * zoomFactor;
+                            newScale = Math.max(1.0, Math.min(8.0, newScale)); 
+                            
+                            currentScale = newScale;
+                            updateTank(); // Redraw with new scale
+                        }
+                    } else if (e.touches.length === 1 && isDragging) {
+                        // Rotation
+                        e.preventDefault(); 
+                        moveDrag(e.touches[0].clientX, e.touches[0].clientY); 
+                    }
+                }, {passive: false});
             }
 
             determineScale();
