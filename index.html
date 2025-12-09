@@ -379,16 +379,28 @@
             background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan);
         }
 
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
         .product-item { 
             background: #0f172a; border: 1px solid #1e293b; 
             border-radius: 10px; padding: 10px; transition: 0.2s; 
         }
         .product-item:hover { border-color: var(--accent-blue); transform: translateY(-3px); }
+        
+        /* CORRECCIÓN: Imágenes cuadradas (1:1) y ajuste "contain" para que no se corten */
         .prod-img { 
-            width: 100%; height: 110px; background: #020617; border-radius: 6px; margin-bottom: 8px; overflow: hidden; 
+            width: 100%; 
+            height: auto;
+            aspect-ratio: 1 / 1; /* Cuadrado perfecto */
+            background: #020617; border-radius: 6px; margin-bottom: 8px; overflow: hidden;
+            display: flex; align-items: center; justify-content: center; /* Centrado */
         }
-        .prod-img img { width: 100%; height: 100%; object-fit: cover; }
+        .prod-img img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; /* Muestra TODO el producto sin cortar */
+            padding: 5px; /* Margen interno para que no toque los bordes */
+        }
+        
         .prod-title { font-size: 0.85rem; color: #fff; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .prod-price { color: var(--accent-green); font-weight: bold; font-size: 0.9rem; }
         .prod-btn { 
@@ -648,6 +660,14 @@
             .accordion-content.open {
                 max-height: 1000px; /* Arbitrary large number */
             }
+            
+            /* --- CAMBIO SOLICITADO: GRID MÓVIL PROPORCIONAL Y COMPACTO --- */
+            .products-grid { 
+                grid-template-columns: repeat(2, 1fr) !important; /* Fuerza 2 columnas */
+                gap: 8px; /* Menor espacio */
+            }
+            .product-item { padding: 8px; } /* Tarjetas más compactas */
+            .sidebar-scroll { padding: 1rem; } /* Más espacio lateral para la grilla */
 
             /* TIENDA INTEGRADA (Solo Móvil) */
             .mobile-shop-section { display: block !important; }
@@ -1102,7 +1122,7 @@
                 // Ajustar altura acordeón si es necesario (para que se vea el loading)
                 const parentContent = responseArea.closest('.accordion-content');
                 if(parentContent) {
-                     parentContent.style.maxHeight = parentContent.scrollHeight + 500 + "px"; 
+                      parentContent.style.maxHeight = parentContent.scrollHeight + 500 + "px"; 
                 }
                 
                 // 3. DEFINIR LA PERSONALIDAD (SYSTEM INSTRUCTION)
@@ -1229,8 +1249,8 @@
                 
                 // Cerrar tienda si está abierta en móvil
                 if(window.innerWidth <= 900) {
-                     // En móvil, la tienda está integrada, no es un drawer separado.
-                     // Pero si en el futuro se usa drawer separado, esto previene conflictos.
+                      // En móvil, la tienda está integrada, no es un drawer separado.
+                      // Pero si en el futuro se usa drawer separado, esto previene conflictos.
                 }
 
                 if(sidebar) sidebar.classList.toggle('active');
